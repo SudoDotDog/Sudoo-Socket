@@ -7,7 +7,7 @@
 import { HTTP_RESPONSE_CODE } from "@sudoo/magic";
 import * as HTTP from "http";
 import * as SocketIO from "socket.io";
-import { SocketConnectHandler } from "./declare";
+import { PreflightRequestHandler, SocketConnectHandler } from "./declare";
 
 export class SocketConnection {
 
@@ -66,21 +66,37 @@ export class SocketConnection {
         }
     }
 
-    private _buildPreflightRequestHandler(): any {
+    private _buildPreflightRequestHandler(): PreflightRequestHandler {
 
-        const allowHeaders: string[] = [
-            "Content-Type",
-            ...this._corsHeaders || [],
-        ];
+        const corsPreflightRequestHandler: PreflightRequestHandler | null = this._buildCorsPreflightRequestHandler();
 
         return (req: any, res: any) => {
-            const headers = {
-                "Access-Control-Allow-Credentials": true,
-                "Access-Control-Allow-Headers": allowHeaders.join(', '),
-                "Access-Control-Allow-Origin": req.headers.origin,
-            };
-            res.writeHead(HTTP_RESPONSE_CODE.OK, headers);
+            if (corsPreflightRequestHandler) {
+                corsPreflightRequestHandler(req, res);
+            }
             res.end();
         };
+    }
+
+    private _buildCorsPreflightRequestHandler(): PreflightRequestHandler | null {
+
+        if (this._corsOrigin) {
+
+            const allowHeaders: string[] = [
+                "Content-Type",
+                ...this._corsHeaders || [],
+            ];
+
+            return (req: any, res: any) => {
+                const headers = {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Headers": allowHeaders.join(', '),
+                    "Access-Control-Allow-Origin": req.headers.origin,
+                };
+                res.writeHead(HTTP_RESPONSE_CODE.OK, headers);
+            };
+        }
+
+        return null;
     }
 }
