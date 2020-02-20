@@ -70,7 +70,7 @@ export class SocketConnection {
 
         const allowHeaders: string[] = [
             "Content-Type",
-            ...this._corsHeaders,
+            ...this._corsHeaders || [],
         ];
 
         return (req: any, res: any) => {
