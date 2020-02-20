@@ -1,0 +1,20 @@
+{
+    "cSpell.words": [
+        "Deserialize",
+        "RMRF",
+        "Unmount",
+        "WMXPY",
+        "bwnl",
+        "clazz",
+        "codecov",
+        "docz",
+        "esnext",
+        "forin",
+        "splited",
+        "sudoo",
+        "triforce",
+        "tshook"
+    ],
+    "tslint.configFile": "typescript/tslint.json",
+    "files.eol": "\n"
+}
