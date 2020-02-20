@@ -16,12 +16,17 @@
     "url": "https://github.com/SudoDotDog/Sudoo-Socket/issues"
   },
   "homepage": "https://github.com/SudoDotDog/Sudoo-Socket#readme",
+  "optionalDependencies": {
+    "@types/socket.io": "*"
+  },
   "dependencies": {
-    "@sudoo/magic": "^1.4.5"
+    "@sudoo/magic": "^1.4.5",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@sudoo/io": "^1.6.2",
-    "@sudoo/triforce": "^2.1.0"
+    "@sudoo/triforce": "^2.1.0",
+    "@types/socket.io": "^2.1.4"
   },
   "nyc": {
     "extension": [
