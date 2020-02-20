@@ -5,11 +5,11 @@
  */
 
 import * as SocketIO from "socket.io";
-import { AfterHook, BeforeHook } from "./declare";
+import { AfterHook, BeforeHook, HandlerHook } from "./declare";
 
-export class SocketHook<T extends any[]> {
+export class SocketHook<T extends any[] = []> {
 
-    public static create<T extends any[]>(): SocketHook<T> {
+    public static create<T extends any[] = []>(): SocketHook<T> {
 
         return new SocketHook<T>();
     }
@@ -35,7 +35,7 @@ export class SocketHook<T extends any[]> {
         return this;
     }
 
-    public wrap(handler: any, ...args: T): any {
+    public wrap(handler: HandlerHook<T>, ...args: T): any {
 
         const _this: this = this;
 
@@ -51,7 +51,7 @@ export class SocketHook<T extends any[]> {
                 }
             }
 
-            await Promise.resolve(handler());
+            await Promise.resolve(handler(socket, ...args));
 
             if (_this._afterHook) {
 
