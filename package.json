@@ -1,0 +1,44 @@
+{
+  "name": "@sudoo/socket",
+  "version": "1.0.0",
+  "description": ":paperclip: Socket Wrapper",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SudoDotDog/Sudoo-Socket.git"
+  },
+  "author": "WMXPY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SudoDotDog/Sudoo-Socket/issues"
+  },
+  "homepage": "https://github.com/SudoDotDog/Sudoo-Socket#readme",
+  "dependencies": {
+    "@sudoo/magic": "^1.4.5"
+  },
+  "devDependencies": {
+    "@sudoo/io": "^1.6.2",
+    "@sudoo/triforce": "^2.1.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "instrument": true,
+    "reporter": [
+      "json",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "require": [
+      "./test/tshook.js"
+    ],
+    "sourceMap": true
+  }
+}
