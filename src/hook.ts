@@ -35,11 +35,11 @@ export class SocketHook<T extends any[] = []> {
         return this;
     }
 
-    public wrap(handler: HandlerHook<T>, ...args: T): any {
+    public wrap(handler: HandlerHook<T>, socket: SocketIO.Socket, ...args: T): any {
 
         const _this: this = this;
 
-        return async (socket: SocketIO.Socket) => {
+        return async () => {
 
             if (_this._beforeHook) {
 
