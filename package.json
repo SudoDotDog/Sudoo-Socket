@@ -1,6 +1,6 @@
 {
   "name": "@sudoo/socket",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": ":paperclip: Socket Wrapper",
   "main": "index.js",
   "directories": {

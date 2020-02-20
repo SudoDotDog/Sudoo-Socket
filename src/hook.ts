@@ -5,6 +5,7 @@
  */
 
 import * as SocketIO from "socket.io";
+import { AfterHook, BeforeHook } from "./declare";
 
 export class SocketHook<T extends any[]> {
 
@@ -13,8 +14,8 @@ export class SocketHook<T extends any[]> {
         return new SocketHook<T>();
     }
 
-    private _beforeHook: null | ((socket: SocketIO.Socket, ...args: T) => (boolean | Promise<boolean>));
-    private _afterHook: null | ((socket: SocketIO.Socket, ...args: T) => (void | Promise<void>));
+    private _beforeHook: null | BeforeHook<T>;
+    private _afterHook: null | AfterHook<T>;
 
     private constructor() {
 
@@ -22,13 +23,13 @@ export class SocketHook<T extends any[]> {
         this._afterHook = null;
     }
 
-    public before(func: (socket: SocketIO.Socket, ...args: T) => (boolean | Promise<boolean>)): this {
+    public before(func: BeforeHook<T>): this {
 
         this._beforeHook = func;
         return this;
     }
 
-    public after(func: (socket: SocketIO.Socket, ...args: T) => (void | Promise<void>)): this {
+    public after(func: AfterHook<T>): this {
 
         this._afterHook = func;
         return this;
@@ -42,7 +43,7 @@ export class SocketHook<T extends any[]> {
 
             if (_this._beforeHook) {
 
-                const beforeHook = _this._beforeHook as (socket: SocketIO.Socket, ...args: T) => (boolean | Promise<boolean>);
+                const beforeHook = _this._beforeHook as BeforeHook<T>;
                 const isBeforeSucceed: boolean = await beforeHook(socket, ...args);
 
                 if (!isBeforeSucceed) {
@@ -54,7 +55,7 @@ export class SocketHook<T extends any[]> {
 
             if (_this._afterHook) {
 
-                const afterHook = _this._afterHook as (socket: SocketIO.Socket, ...args: T) => (void | Promise<void>);
+                const afterHook = _this._afterHook as AfterHook<T>;
                 await afterHook(socket, ...args);
             }
         };
