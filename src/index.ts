@@ -5,5 +5,6 @@
  */
 
 export * from "./declare";
+export * from "./hook";
 export * from "./socket";
 
