@@ -7,7 +7,7 @@
 import { HTTP_RESPONSE_CODE } from "@sudoo/magic";
 import * as HTTP from "http";
 import * as SocketIO from "socket.io";
-import { PreflightRequestHandler, SocketConnectHandler } from "./declare";
+import { Default_Transports_Protocol, PreflightRequestHandler, SocketConnectHandler } from "./declare";
 
 export class SocketConnection {
 
@@ -27,7 +27,7 @@ export class SocketConnection {
 
     private constructor(path: string) {
 
-        this._transports = ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', 'polling'];
+        this._transports = Default_Transports_Protocol;
         this._path = path;
     }
 

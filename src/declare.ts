@@ -6,6 +6,25 @@
 
 import * as SocketIO from "socket.io";
 
+export enum TRANSPORTS_PROTOCOL {
+
+    WEBSOCKET = "websocket",
+    HTMLFILE = "htmlfile",
+    XHR_POLLING = "xhr-polling",
+    JSONP_POLLING = "jsonp-polling",
+    POLLING = "polling",
+}
+
+// tslint:disable-next-line: variable-name
+export const Default_Transports_Protocol = [
+
+    TRANSPORTS_PROTOCOL.WEBSOCKET,
+    TRANSPORTS_PROTOCOL.HTMLFILE,
+    TRANSPORTS_PROTOCOL.XHR_POLLING,
+    TRANSPORTS_PROTOCOL.JSONP_POLLING,
+    TRANSPORTS_PROTOCOL.POLLING,
+];
+
 export type SocketConnectHandler = (socket: SocketIO.Socket) => void | Promise<void>;
 export type PreflightRequestHandler = (req: any, res: any) => void;
 
