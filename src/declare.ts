@@ -16,7 +16,7 @@ export enum TRANSPORTS_PROTOCOL {
 }
 
 // tslint:disable-next-line: variable-name
-export const Default_Transports_Protocol = [
+export const Default_Transports_Protocol: TRANSPORTS_PROTOCOL[] = [
 
     TRANSPORTS_PROTOCOL.WEBSOCKET,
     TRANSPORTS_PROTOCOL.HTMLFILE,

@@ -7,7 +7,7 @@
 import { HTTP_RESPONSE_CODE } from "@sudoo/magic";
 import * as HTTP from "http";
 import * as SocketIO from "socket.io";
-import { Default_Transports_Protocol, PreflightRequestHandler, SocketConnectHandler } from "./declare";
+import { Default_Transports_Protocol, PreflightRequestHandler, SocketConnectHandler, TRANSPORTS_PROTOCOL } from "./declare";
 
 export class SocketConnection {
 
@@ -16,9 +16,9 @@ export class SocketConnection {
         return new SocketConnection(path);
     }
 
-    private readonly _transports: string[];
     private readonly _path: string;
 
+    private _transports: TRANSPORTS_PROTOCOL[];
     private _socket: SocketIO.Server | null = null;
 
     private _connectHandler: SocketConnectHandler | null = null;
@@ -35,6 +35,12 @@ export class SocketConnection {
         return this._socket;
     }
 
+    public setTransportsProtocols(transports: TRANSPORTS_PROTOCOL[]): this {
+
+        this._transports = transports;
+        return this;
+    }
+
     public onConnect(func: SocketConnectHandler): this {
 
         this._connectHandler = func;
@@ -48,7 +54,7 @@ export class SocketConnection {
         return this;
     }
 
-    public start(server: HTTP.Server) {
+    public start(server: HTTP.Server): this {
 
         this._socket = SocketIO(server, {
 
@@ -64,6 +70,7 @@ export class SocketConnection {
         if (this._connectHandler) {
             this._socket.on('connection', this._connectHandler);
         }
+        return this;
     }
 
     private _buildPreflightRequestHandler(): PreflightRequestHandler {
