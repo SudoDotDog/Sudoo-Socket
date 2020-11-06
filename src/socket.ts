@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * @author WMXPY
  * @namespace Socket
@@ -72,6 +73,7 @@ export class SocketConnection {
         }
 
         if (this._connectHandler) {
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             this._socket.on('connection', this._connectHandler);
         }
         return this;

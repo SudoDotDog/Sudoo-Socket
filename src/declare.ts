@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * @author WMXPY
  * @namespace Socket
@@ -15,7 +16,6 @@ export enum TRANSPORTS_PROTOCOL {
     POLLING = "polling",
 }
 
-// tslint:disable-next-line: variable-name
 export const Default_Transports_Protocol: TRANSPORTS_PROTOCOL[] = [
 
     TRANSPORTS_PROTOCOL.WEBSOCKET,

@@ -55,13 +55,14 @@ export class SocketHook<T extends any[] = []> {
 
     public wrap(handler: HandlerHook<T>, socket: SocketIO.Socket, ...args: T): () => any {
 
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const _this: this = this;
 
         return async () => {
 
             if (_this._beforeHook) {
 
-                const beforeHook = _this._beforeHook as BeforeHook<T>;
+                const beforeHook = _this._beforeHook;
                 const isBeforeSucceed: boolean = await beforeHook(socket, ...args);
 
                 if (!isBeforeSucceed) {
@@ -73,7 +74,7 @@ export class SocketHook<T extends any[] = []> {
 
             if (_this._afterHook) {
 
-                const afterHook = _this._afterHook as AfterHook<T>;
+                const afterHook = _this._afterHook;
                 await afterHook(socket, ...args);
             }
         };
@@ -81,13 +82,14 @@ export class SocketHook<T extends any[] = []> {
 
     public wrapWithMessage(handler: HandlerWithMessageHook<T>, socket: SocketIO.Socket, ...args: T): (message: string) => any {
 
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const _this: this = this;
 
         return async (message: string) => {
 
             if (_this._beforeWithMessageHook) {
 
-                const beforeHook = _this._beforeWithMessageHook as BeforeWithMessageHook<T>;
+                const beforeHook = _this._beforeWithMessageHook;
                 const isBeforeSucceed: boolean = await beforeHook(socket, message, ...args);
 
                 if (!isBeforeSucceed) {
@@ -99,7 +101,7 @@ export class SocketHook<T extends any[] = []> {
 
             if (_this._afterWithMessageHook) {
 
-                const afterHook = _this._afterWithMessageHook as AfterWithMessageHook<T>;
+                const afterHook = _this._afterWithMessageHook;
                 await afterHook(socket, message, ...args);
             }
         };
