@@ -16,3 +16,10 @@ npm install @sudoo/socket --save
 ```
 
 ## Usage
+
+```ts
+import { SocketConnection } from "@sudoo/socket";
+const socket: SocketConnection = SocketConnection.create('Path');
+```
+
+This package document is under construction. For hooks and advanced features, see source code.
