@@ -56,7 +56,7 @@ export class SocketConnection {
 
     public start(server: HTTP.Server): this {
 
-        this._socket = SocketIO(server, {
+        this._socket = (SocketIO as any)(server, {
 
             path: this._path,
             serveClient: false,
@@ -66,6 +66,10 @@ export class SocketConnection {
 
             cookie: false,
         });
+
+        if (!this._socket) {
+            throw new Error("[Sudoo-Socket] Undefined Socket Server");
+        }
 
         if (this._connectHandler) {
             this._socket.on('connection', this._connectHandler);
