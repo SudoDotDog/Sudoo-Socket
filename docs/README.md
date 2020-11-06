@@ -6,3 +6,11 @@
 [![downloads](https://img.shields.io/npm/dm/@sudoo/socket.svg)](https://www.npmjs.com/package/@sudoo/socket)
 
 :paperclip: Socket Wrapper
+
+## Install
+
+```sh
+yarn add @sudoo/socket
+# Or
+npm install @sudoo/socket --save
+```
