@@ -14,3 +14,5 @@ yarn add @sudoo/socket
 # Or
 npm install @sudoo/socket --save
 ```
+
+## Usage
