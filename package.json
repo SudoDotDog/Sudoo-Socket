@@ -20,13 +20,13 @@
     "@types/socket.io": "*"
   },
   "dependencies": {
-    "@sudoo/magic": "^1.4.5",
+    "@sudoo/magic": "^1.8.0",
     "socket.io": "^3.0.0"
   },
   "devDependencies": {
-    "@sudoo/io": "^1.6.2",
-    "@sudoo/triforce": "^2.1.0",
-    "@types/socket.io": "^2.1.4"
+    "@sudoo/io": "^1.8.0",
+    "@sudoo/triforce": "^2.9.6",
+    "@types/socket.io": "^2.1.11"
   },
   "nyc": {
     "extension": [
