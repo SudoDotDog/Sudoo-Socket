@@ -81,7 +81,9 @@ export class SocketConnection {
 
         if (this._connectHandler) {
             this._socket.on('connection', (socket: any) => {
-                this._connectHandler(socket);
+                if (this._connectHandler) {
+                    this._connectHandler(socket);
+                }
             });
         }
         return this;
