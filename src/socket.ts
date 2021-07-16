@@ -37,6 +37,6 @@ export class Socket {
 
         const request: SocketRequest = SocketRequest.create(incomingMessage, socket);
 
-        console.log(request);
+        request.accept();
     }
 }

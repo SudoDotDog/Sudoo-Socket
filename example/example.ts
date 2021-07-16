@@ -8,6 +8,7 @@ import { Socket } from "../src";
 import * as HTTP from "http";
 
 const server = HTTP.createServer(function (request: any, response: any) {
+
     console.log(request.url);
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     response.writeHead(404);
@@ -16,6 +17,7 @@ const server = HTTP.createServer(function (request: any, response: any) {
 
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
 server.listen(3000, function () {
+
     console.log("Server is listening on port 3000");
 });
 

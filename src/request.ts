@@ -45,6 +45,7 @@ export class SocketRequest {
         const response: string = buildHttpSwitchingProtocolsResponse(acceptKey);
 
         this._socket.write(response, 'ascii', (error: any) => {
+
             console.log(error);
         });
 
