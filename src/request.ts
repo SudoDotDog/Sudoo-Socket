@@ -46,7 +46,7 @@ export class SocketRequest {
 
         this._socket.write(response, 'ascii', (error: any) => {
 
-            console.log(error);
+            console.error(error);
         });
 
         const connection = SocketConnection.create();
