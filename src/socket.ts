@@ -16,13 +16,9 @@ export class Socket {
 
     private _mounted: boolean;
 
-    private readonly _connections: any[] = [];
-
     private constructor() {
 
         this._mounted = false;
-
-        this._connections = [];
     }
 
     public mount(server: HTTP.Server): this {

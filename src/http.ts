@@ -4,7 +4,7 @@
  * @description Http
  */
 
-export const buildHttpSwitchingProtocolsHeader = (
+export const buildHttpSwitchingProtocolsResponse = (
     acceptKey: string,
 ): string => {
 
@@ -14,6 +14,7 @@ export const buildHttpSwitchingProtocolsHeader = (
         'Connection: Upgrade',
         `Sec-WebSocket-Accept: ${acceptKey}`,
         'Sec-WebSocket-Origin: *',
+        '',
     ];
     return headerList.join('\n');
 };

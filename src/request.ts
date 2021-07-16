@@ -6,7 +6,9 @@
 
 import * as HTTP from 'http';
 import * as Net from 'net';
-import { buildHttpSwitchingProtocolsHeader } from './http';
+import { SocketConnection } from './connection';
+import { SocketConnectionManager } from './connection-manager';
+import { buildHttpSwitchingProtocolsResponse } from './http';
 import { encryptAcceptKey } from './util';
 
 export class SocketRequest {
@@ -37,11 +39,19 @@ export class SocketRequest {
         return this._incomingMessage.headers['sec-websocket-key'] as string;
     }
 
-    public accept(): void {
+    public accept(): SocketConnection {
 
         const acceptKey: string = encryptAcceptKey(this.getKey());
-        const responseHeader: string = buildHttpSwitchingProtocolsHeader(acceptKey);
+        const response: string = buildHttpSwitchingProtocolsResponse(acceptKey);
 
+        this._socket.write(response, 'ascii', (error: any) => {
+            console.log(error);
+        });
 
+        const connection = SocketConnection.create();
+        const connectionManager: SocketConnectionManager = SocketConnectionManager.getInstance();
+
+        connectionManager.addConnection(connection);
+        return connection;
     }
 }
