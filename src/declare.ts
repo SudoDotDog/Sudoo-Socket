@@ -10,18 +10,12 @@ import * as SocketIO from "socket.io";
 export enum TRANSPORTS_PROTOCOL {
 
     WEBSOCKET = "websocket",
-    HTMLFILE = "htmlfile",
-    XHR_POLLING = "xhr-polling",
-    JSONP_POLLING = "jsonp-polling",
     POLLING = "polling",
 }
 
 export const Default_Transports_Protocol: TRANSPORTS_PROTOCOL[] = [
 
     TRANSPORTS_PROTOCOL.WEBSOCKET,
-    TRANSPORTS_PROTOCOL.HTMLFILE,
-    TRANSPORTS_PROTOCOL.XHR_POLLING,
-    TRANSPORTS_PROTOCOL.JSONP_POLLING,
     TRANSPORTS_PROTOCOL.POLLING,
 ];
 

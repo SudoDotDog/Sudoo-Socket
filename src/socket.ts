@@ -1,14 +1,12 @@
-/* eslint-disable camelcase */
 /**
  * @author WMXPY
  * @namespace Socket
  * @description Socket
  */
 
-import { HTTP_RESPONSE_CODE } from "@sudoo/magic";
-import * as HTTP from "http";
-import * as SocketIO from "socket.io";
-import { Default_Transports_Protocol, PreflightRequestHandler, SocketConnectHandler, TRANSPORTS_PROTOCOL } from "./declare";
+import { Server } from "socket.io";
+// eslint-disable-next-line camelcase
+import { Default_Transports_Protocol, SocketConnectHandler, TRANSPORTS_PROTOCOL } from "./declare";
 
 export class SocketConnection {
 
@@ -20,7 +18,7 @@ export class SocketConnection {
     private readonly _path: string;
 
     private _transports: TRANSPORTS_PROTOCOL[];
-    private _socket: SocketIO.Server | null = null;
+    private _socket: Server | null = null;
 
     private _connectHandler: SocketConnectHandler | null = null;
     private _corsOrigin: string | null = null;
@@ -28,11 +26,12 @@ export class SocketConnection {
 
     private constructor(path: string) {
 
+        // eslint-disable-next-line camelcase
         this._transports = Default_Transports_Protocol;
         this._path = path;
     }
 
-    public get socket(): SocketIO.Server | null {
+    public get socket(): Server | null {
         return this._socket;
     }
 
@@ -55,16 +54,24 @@ export class SocketConnection {
         return this;
     }
 
-    public start(server: HTTP.Server): this {
+    public start(httpServer: any): this {
 
-        this._socket = (SocketIO as any)(server, {
+        const corsAllowHeaders: string[] = [
+            "Content-Type",
+            ...this._corsHeaders || [],
+        ];
+
+        this._socket = new Server(httpServer, {
 
             path: this._path,
             serveClient: false,
-            handlePreflightRequest: this._buildPreflightRequestHandler(),
+            cors: {
+                origin: this._corsOrigin ? this._corsOrigin : undefined,
+                methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                allowedHeaders: corsAllowHeaders,
+                credentials: true,
+            },
             transports: this._transports,
-            origins: this._corsOrigin ? this._corsOrigin : undefined,
-
             cookie: false,
         });
 
@@ -73,43 +80,10 @@ export class SocketConnection {
         }
 
         if (this._connectHandler) {
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            this._socket.on('connection', this._connectHandler);
+            this._socket.on('connection', (socket: any) => {
+                this._connectHandler(socket);
+            });
         }
         return this;
-    }
-
-    private _buildPreflightRequestHandler(): PreflightRequestHandler {
-
-        const corsPreflightRequestHandler: PreflightRequestHandler | null = this._buildCorsPreflightRequestHandler();
-
-        return (req: any, res: any) => {
-            if (corsPreflightRequestHandler) {
-                corsPreflightRequestHandler(req, res);
-            }
-            res.end();
-        };
-    }
-
-    private _buildCorsPreflightRequestHandler(): PreflightRequestHandler | null {
-
-        if (this._corsOrigin) {
-
-            const allowHeaders: string[] = [
-                "Content-Type",
-                ...this._corsHeaders || [],
-            ];
-
-            return (req: any, res: any) => {
-                const headers = {
-                    "Access-Control-Allow-Credentials": true,
-                    "Access-Control-Allow-Headers": allowHeaders.join(', '),
-                    "Access-Control-Allow-Origin": req.headers.origin,
-                };
-                res.writeHead(HTTP_RESPONSE_CODE.OK, headers);
-            };
-        }
-
-        return null;
     }
 }
