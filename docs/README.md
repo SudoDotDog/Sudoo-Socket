@@ -5,7 +5,7 @@
 [![npm version](https://badge.fury.io/js/%40sudoo%2Fsocket.svg)](https://www.npmjs.com/package/@sudoo/socket)
 [![downloads](https://img.shields.io/npm/dm/@sudoo/socket.svg)](https://www.npmjs.com/package/@sudoo/socket)
 
-Socket Wrapper
+Socket Server for JS
 
 ## Install
 

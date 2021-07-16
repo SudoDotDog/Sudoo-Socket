@@ -12,7 +12,12 @@ eslint := node_modules/.bin/eslint
 build_utils := node_modules/.bin/build-utils
 license_package := node_modules/.bin/license-package
 
-main: dev
+main: run-example
+
+run-example:
+	@echo "[INFO] Running Example"
+	@NODE_ENV=development \
+	$(ts_node) --project $(dev) example/example.ts
 
 dev:
 	@echo "[INFO] Building for development"
