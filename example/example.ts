@@ -4,8 +4,8 @@
  * @description Example
  */
 
-import { SocketServer } from "../src";
 import * as HTTP from "http";
+import { ConnectionHandler, ConnectionInformation, SocketServer } from "../src";
 
 const server = HTTP.createServer(function (request: any, response: any) {
 
@@ -22,4 +22,11 @@ server.listen(3000, function () {
 });
 
 const socket = SocketServer.create();
+const handler: ConnectionHandler = ConnectionHandler.whenSatisfy(
+    (information: ConnectionInformation) => {
+        console.log(information);
+        return false;
+    },
+);
+socket.addConnectionHandler(handler);
 socket.attach(server);
