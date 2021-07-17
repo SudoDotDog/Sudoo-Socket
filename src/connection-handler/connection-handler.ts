@@ -1,29 +1,29 @@
 /**
  * @author WMXPY
- * @namespace Socket
+ * @namespace Socket_ConnectionHandler
  * @description Connection Handler
  */
 
 import { connection as WebsocketConnection, IMessage } from "websocket";
-import { MessageAgent } from "./agent";
-import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction } from "./declare";
-import { MessageProxy } from "./proxy";
+import { MessageAgent } from "../agent";
+import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction } from "../declare";
+import { MessageProxy } from "../proxy";
 
 export class ConnectionHandler {
 
-    public static whenSatisfy(requirement: ConnectionEstablishRequirement): ConnectionHandler {
+    public static whenSatisfy(...requirements: ConnectionEstablishRequirement[]): ConnectionHandler {
 
-        return new ConnectionHandler(requirement);
+        return new ConnectionHandler(requirements);
     }
 
-    private readonly _requirement: ConnectionEstablishRequirement;
+    private readonly _requirements: ConnectionEstablishRequirement[];
     private readonly _messageAgents: Set<MessageAgent>;
 
     private _onConnectionClose?: OnConnectionCloseFunction;
 
-    private constructor(requirement: ConnectionEstablishRequirement) {
+    private constructor(requirements: ConnectionEstablishRequirement[]) {
 
-        this._requirement = requirement;
+        this._requirements = requirements;
         this._messageAgents = new Set<MessageAgent>();
     }
 
@@ -47,7 +47,13 @@ export class ConnectionHandler {
 
     public shouldEstablish(connectionInformation: ConnectionInformation): boolean {
 
-        return this._requirement(connectionInformation);
+        for (const requirement of this._requirements) {
+
+            if (!requirement(connectionInformation)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public establish(connection: WebsocketConnection): this {
