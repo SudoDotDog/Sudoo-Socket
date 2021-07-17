@@ -25,7 +25,8 @@ export class SocketServer {
     public attach(server: HTTP.Server): this {
 
         if (this._mounted) {
-            return this;
+
+            throw new Error("[Sudoo-Socket] SocketServer already mounted");
         }
 
         this._mounted = true;
@@ -35,5 +36,25 @@ export class SocketServer {
             autoAcceptConnections: false,
         });
         return this;
+    }
+
+    public detach(): this {
+
+        if (!this._mounted || !this._socketServer) {
+            throw new Error("[Sudoo-Socket] SocketServer not mounted");
+        }
+
+        this._socketServer.shutDown();
+        this._socketServer = null;
+        this._mounted = false;
+        return this;
+    }
+
+    private _ensureServer(): WebsocketServer {
+
+        if (!this._socketServer) {
+            throw new Error("[Sudoo-Socket] SocketServer not mounted");
+        }
+        return this._socketServer;
     }
 }
