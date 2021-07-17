@@ -9,6 +9,7 @@ export type ConnectionInformation = {
     readonly origin: string;
 };
 export type ConnectionEstablishRequirement = (information: ConnectionInformation) => boolean;
+export type OnConnectionCloseFunction = (reason: number, description: string) => void;
 
 export type UTF8MessageHandler = (proxy: IMessageProxy, message: string) => void;
 export type OnBinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void;
