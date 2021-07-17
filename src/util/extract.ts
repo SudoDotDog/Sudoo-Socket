@@ -10,9 +10,17 @@ import { ConnectionInformation, ConnectionURL } from "../declare";
 
 const extractResourceURL = (original: Url): ConnectionURL => {
 
+    const routes: string[] = [];
+    if (typeof original.pathname === "string") {
+
+        const splited: string[] = original.pathname.split("/");
+        routes.push(...splited.slice(1));
+    }
+
     const url: ConnectionURL = {
 
         href: original.href,
+        routes,
         query: (typeof original.query === 'string'
             ? {}
             : {

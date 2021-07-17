@@ -7,6 +7,7 @@
 export type ConnectionURL = {
 
     readonly href: string;
+    readonly routes: string[];
     readonly query: Record<string, string | string[]>;
 
     readonly auth?: string;
