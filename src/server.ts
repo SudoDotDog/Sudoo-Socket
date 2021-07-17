@@ -13,6 +13,7 @@ import { extractConnectionInformation } from "./util/extract";
 export class SocketServer {
 
     public static create(): SocketServer {
+
         return new SocketServer();
     }
 
@@ -58,7 +59,7 @@ export class SocketServer {
         }
 
         this._socketServer.shutDown();
-        this._socketServer = null;
+        this._socketServer = undefined;
         this._mounted = false;
         return this;
     }
@@ -82,11 +83,11 @@ export class SocketServer {
 
             if (handler.shouldEstablish(connectionInformation)) {
 
-                const connection: WebsocketConnection = request.accept(null, request.origin);
+                const connection: WebsocketConnection = request.accept(null as any, request.origin);
                 if (this._connections.has(handler)) {
 
-                    this._connections
-                        .get(handler)
+                    (this._connections
+                        .get(handler) as Set<WebsocketConnection>)
                         .add(connection);
                 }
                 handler.establish(connection);
