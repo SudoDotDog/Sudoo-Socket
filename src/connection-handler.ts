@@ -4,13 +4,19 @@
  * @description Connection Handler
  */
 
+import { ConnectionEstablishRequirement } from "./declare";
+
 export class ConnectionHandler {
 
-    public static create(): ConnectionHandler {
+    public static whenSatisfy(requirement: ConnectionEstablishRequirement): ConnectionHandler {
 
-        return new ConnectionHandler();
+        return new ConnectionHandler(requirement);
     }
 
-    private constructor() {
+    private readonly _requirement: ConnectionEstablishRequirement;
+
+    private constructor(requirement: ConnectionEstablishRequirement) {
+
+        this._requirement = requirement;
     }
 }

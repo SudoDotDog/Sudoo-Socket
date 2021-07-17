@@ -5,7 +5,8 @@
  */
 
 import * as HTTP from "http";
-import { server as WebsocketServer } from "websocket";
+import { request as WebsocketRequest, server as WebsocketServer } from "websocket";
+import { ConnectionHandler } from "./connection-handler";
 
 export class SocketServer {
 
@@ -14,12 +15,15 @@ export class SocketServer {
     }
 
     private _socketServer?: WebsocketServer;
-
     private _mounted: boolean;
+
+    private readonly _connectionHandlers: Set<ConnectionHandler>;
 
     private constructor() {
 
         this._mounted = false;
+
+        this._connectionHandlers = new Set();
     }
 
     public attach(server: HTTP.Server): this {
@@ -31,10 +35,15 @@ export class SocketServer {
 
         this._mounted = true;
 
-        this._socketServer = new WebsocketServer({
+        const socketServer: WebsocketServer = new WebsocketServer({
             httpServer: server,
             autoAcceptConnections: false,
         });
+        socketServer.on('request', (request: WebsocketRequest) => {
+            request.accept();
+        });
+
+        this._socketServer = socketServer;
         return this;
     }
 
@@ -49,6 +58,27 @@ export class SocketServer {
         this._socketServer.shutDown();
         this._socketServer = null;
         this._mounted = false;
+        return this;
+    }
+
+    public addConnectionHandler(handler: ConnectionHandler): this {
+
+        this._connectionHandlers.add(handler);
+        return this;
+    }
+
+    public removeConnectionHandler(handler: ConnectionHandler): this {
+
+        this._connectionHandlers.delete(handler);
+        return this;
+    }
+
+    private _onRequest(request: WebsocketRequest): this {
+
+        for (const handler of this._connectionHandlers) {
+
+            request.httpRequest
+        }
         return this;
     }
 

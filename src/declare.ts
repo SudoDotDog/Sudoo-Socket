@@ -4,4 +4,7 @@
  * @description Declare
  */
 
-export type ConnectionEstablishRequirement = () => void;
+import * as HTTP from "http";
+
+export type ConnectionEstablishRequirement = (incomingMessage: HTTP.IncomingMessage) => boolean;
+
