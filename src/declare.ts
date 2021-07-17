@@ -4,7 +4,10 @@
  * @description Declare
  */
 
-import * as HTTP from "http";
+export type ConnectionInformation = {
 
-export type ConnectionEstablishRequirement = (incomingMessage: HTTP.IncomingMessage) => boolean;
+    readonly origin: string;
+};
+
+export type ConnectionEstablishRequirement = (information: ConnectionInformation) => boolean;
 

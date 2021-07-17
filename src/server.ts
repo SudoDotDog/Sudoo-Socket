@@ -5,8 +5,10 @@
  */
 
 import * as HTTP from "http";
-import { request as WebsocketRequest, server as WebsocketServer } from "websocket";
+import { connection as WebsocketConnection, request as WebsocketRequest, server as WebsocketServer } from "websocket";
 import { ConnectionHandler } from "./connection-handler";
+import { ConnectionInformation } from "./declare";
+import { extractConnectionInformation } from "./util/extract";
 
 export class SocketServer {
 
@@ -18,12 +20,14 @@ export class SocketServer {
     private _mounted: boolean;
 
     private readonly _connectionHandlers: Set<ConnectionHandler>;
+    private readonly _connections: Map<ConnectionHandler, Set<WebsocketConnection>>;
 
     private constructor() {
 
         this._mounted = false;
 
         this._connectionHandlers = new Set();
+        this._connections = new Map();
     }
 
     public attach(server: HTTP.Server): this {
@@ -39,9 +43,7 @@ export class SocketServer {
             httpServer: server,
             autoAcceptConnections: false,
         });
-        socketServer.on('request', (request: WebsocketRequest) => {
-            request.accept();
-        });
+        socketServer.on('request', this._onRequest.bind(this));
 
         this._socketServer = socketServer;
         return this;
@@ -75,10 +77,24 @@ export class SocketServer {
 
     private _onRequest(request: WebsocketRequest): this {
 
+        const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
         for (const handler of this._connectionHandlers) {
 
-            request.httpRequest
+            if (handler.shouldEstablish(connectionInformation)) {
+
+                const connection: WebsocketConnection = request.accept(null, request.origin);
+                if (this._connections.has(handler)) {
+
+                    this._connections
+                        .get(handler)
+                        .add(connection);
+                }
+                handler.establish(connection);
+                return this;
+            }
         }
+
+        request.reject();
         return this;
     }
 

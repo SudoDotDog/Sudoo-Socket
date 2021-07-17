@@ -4,7 +4,8 @@
  * @description Connection Handler
  */
 
-import { ConnectionEstablishRequirement } from "./declare";
+import { connection as WebsocketConnection, IMessage } from "websocket";
+import { ConnectionEstablishRequirement, ConnectionInformation } from "./declare";
 
 export class ConnectionHandler {
 
@@ -18,5 +19,18 @@ export class ConnectionHandler {
     private constructor(requirement: ConnectionEstablishRequirement) {
 
         this._requirement = requirement;
+    }
+
+    public shouldEstablish(connectionInformation: ConnectionInformation): boolean {
+
+        return this._requirement(connectionInformation);
+    }
+
+    public establish(connection: WebsocketConnection): this {
+
+        connection.on('message', (data: IMessage) => {
+            connection.send(data);
+        });
+        return this;
     }
 }
