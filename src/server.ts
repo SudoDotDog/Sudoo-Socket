@@ -40,7 +40,9 @@ export class SocketServer {
 
     public detach(): this {
 
-        if (!this._mounted || !this._socketServer) {
+        if (!this._mounted
+            || !this._socketServer) {
+
             throw new Error("[Sudoo-Socket] SocketServer not mounted");
         }
 
