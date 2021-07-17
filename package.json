@@ -24,7 +24,8 @@
   "devDependencies": {
     "@sudoo/build-utils": "^1.0.0",
     "@sudoo/license": "^1.1.0",
-    "@sudoo/triforce": "^2.9.28"
+    "@sudoo/triforce": "^2.9.28",
+    "@types/websocket": "^1.0.3"
   },
   "nyc": {
     "extension": [
