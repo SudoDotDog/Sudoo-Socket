@@ -4,18 +4,17 @@
  * @description Agent
  */
 
-export type MessageAgentOptions = {
-
-    readonly onUTF8Message?: (message: string) => void;
-    readonly onBinaryMessage?: (message: Buffer) => void;
-    readonly convertBufferToString?: boolean;
-};
+import { IMessageProxy, MessageAgentOptions, OnBinaryMessageHandler, UTF8MessageHandler } from "./declare";
 
 export class MessageAgent {
 
-    public static create(options: MessageAgentOptions): MessageAgent {
+    public static create(options?: MessageAgentOptions): MessageAgent {
 
         const agent: MessageAgent = new MessageAgent();
+
+        if (!options) {
+            return agent;
+        }
 
         if (options.convertBufferToString) {
             agent.setConvertBufferToString(true);
@@ -30,8 +29,8 @@ export class MessageAgent {
         return agent;
     }
 
-    private _onUTF8Message?: (message: string) => void;
-    private _onBinaryMessage?: (message: Buffer) => void;
+    private _onUTF8Message?: UTF8MessageHandler;
+    private _onBinaryMessage?: OnBinaryMessageHandler;
 
     private _convertBufferToString: boolean;
 
@@ -40,13 +39,13 @@ export class MessageAgent {
         this._convertBufferToString = false;
     }
 
-    public onUTF8Message(messageHandler: (message: string) => void): this {
+    public onUTF8Message(messageHandler: UTF8MessageHandler): this {
 
         this._onUTF8Message = messageHandler;
         return this;
     }
 
-    public onBinaryMessage(messageHandler: (message: Buffer) => void): this {
+    public onBinaryMessage(messageHandler: OnBinaryMessageHandler): this {
 
         this._onBinaryMessage = messageHandler;
         return this;
@@ -58,23 +57,23 @@ export class MessageAgent {
         return this;
     }
 
-    public emitUTF8Message(message: string): this {
+    public emitUTF8Message(proxy: IMessageProxy, message: string): this {
 
         if (this._onUTF8Message) {
-            this._onUTF8Message(message);
+            this._onUTF8Message(proxy, message);
         }
         return this;
     }
 
-    public emitBinaryMessage(message: Buffer): this {
+    public emitBinaryMessage(proxy: IMessageProxy, message: Buffer): this {
 
         if (this._convertBufferToString) {
-            this.emitUTF8Message(message.toString());
+            this.emitUTF8Message(proxy, message.toString());
             return this;
         }
 
         if (this._onBinaryMessage) {
-            this._onBinaryMessage(message);
+            this._onBinaryMessage(proxy, message);
         }
         return this;
     }

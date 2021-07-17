@@ -7,6 +7,7 @@
 import { connection as WebsocketConnection, IMessage } from "websocket";
 import { MessageAgent } from "./agent";
 import { ConnectionEstablishRequirement, ConnectionInformation } from "./declare";
+import { MessageProxy } from "./proxy";
 
 export class ConnectionHandler {
 
@@ -45,21 +46,22 @@ export class ConnectionHandler {
 
         connection.on('message', (data: IMessage) => {
 
-            this._triggerMessage(data);
+            this._triggerMessage(connection, data);
         });
         return this;
     }
 
-    private _triggerMessage(message: IMessage): this {
+    private _triggerMessage(connection: WebsocketConnection, message: IMessage): this {
 
         for (const messageAgent of this._messageAgents) {
 
+            const proxy: MessageProxy = MessageProxy.create(connection);
             if (message.type === 'utf8') {
 
-                messageAgent.emitUTF8Message(message.utf8Data as string);
+                messageAgent.emitUTF8Message(proxy, message.utf8Data as string);
             } else if (message.type === 'binary') {
 
-                messageAgent.emitBinaryMessage(message.binaryData as Buffer);
+                messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
             }
         }
         return this;
