@@ -29,6 +29,27 @@ export class MessageAgent {
         return agent;
     }
 
+    public static utf8(messageHandler: UTF8MessageHandler): MessageAgent {
+
+        const agent: MessageAgent = new MessageAgent();
+        agent.setConvertBufferToString(true);
+        agent.onUTF8Message(messageHandler);
+
+        return agent;
+    }
+
+    public static binary(messageHandler: OnBinaryMessageHandler): MessageAgent {
+
+        const agent: MessageAgent = new MessageAgent();
+        agent.setConvertBufferToString(false);
+        agent.onUTF8Message((proxy: IMessageProxy, message: string) => {
+            messageHandler(proxy, Buffer.from(message, 'utf-8'));
+        });
+        agent.onBinaryMessage(messageHandler);
+
+        return agent;
+    }
+
     private _onUTF8Message?: UTF8MessageHandler;
     private _onBinaryMessage?: OnBinaryMessageHandler;
 

@@ -5,7 +5,7 @@
  */
 
 import * as HTTP from "http";
-import { ConnectionHandler, createPathMatchConnectionEstablishRequirement, SocketServer } from "../src";
+import { ConnectionHandler, createPathMatchConnectionEstablishRequirement, IMessageProxy, MessageAgent, SocketServer } from "../src";
 
 const server = HTTP.createServer(function (request: any, response: any) {
 
@@ -25,5 +25,11 @@ const socket = SocketServer.create();
 const handler: ConnectionHandler = ConnectionHandler.whenSatisfy(
     createPathMatchConnectionEstablishRequirement('/'),
 );
+
+const agent: MessageAgent = MessageAgent.utf8((proxy: IMessageProxy, message: string) => {
+    proxy.send(message);
+});
+
+handler.addMessageAgent(agent);
 socket.addConnectionHandler(handler);
 socket.attach(server);
