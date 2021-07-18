@@ -75,7 +75,8 @@ export class ConnectionHandler {
 
     private _triggerMessage(connection: WebsocketConnection, message: IMessage): this {
 
-        for (const messageAgent of this._messageAgents) {
+        const sortedAgents: MessageAgent[] = this._getSortedAgents();
+        for (const messageAgent of sortedAgents) {
 
             const proxy: MessageProxy = MessageProxy.create(connection);
             if (message.type === 'utf8') {
@@ -97,5 +98,21 @@ export class ConnectionHandler {
             this._onConnectionClose(reason, description);
         }
         return this;
+    }
+
+    private _getSortedAgents(): MessageAgent[] {
+
+        return [
+            ...this._messageAgents,
+        ].sort((a: MessageAgent, b: MessageAgent) => {
+
+            if (a.priority > b.priority) {
+                return 1;
+            }
+            if (a.priority < b.priority) {
+                return -1;
+            }
+            return 0;
+        });
     }
 }

@@ -25,20 +25,27 @@ export class MessageAgent {
         if (options.onBinaryMessage) {
             agent.onBinaryMessage(options.onBinaryMessage);
         }
+        if (typeof options.priority === 'number') {
+            agent._priority = options.priority;
+        }
 
         return agent;
     }
 
-    public static utf8(messageHandler: UTF8MessageHandler): MessageAgent {
+    public static utf8(messageHandler: UTF8MessageHandler, priority?: number): MessageAgent {
 
         const agent: MessageAgent = new MessageAgent();
         agent.setConvertBufferToString(true);
         agent.onUTF8Message(messageHandler);
 
+        if (typeof priority === 'number') {
+            agent._priority = priority;
+        }
+
         return agent;
     }
 
-    public static binary(messageHandler: BinaryMessageHandler): MessageAgent {
+    public static binary(messageHandler: BinaryMessageHandler, priority?: number): MessageAgent {
 
         const agent: MessageAgent = new MessageAgent();
         agent.setConvertBufferToString(false);
@@ -47,6 +54,10 @@ export class MessageAgent {
         });
         agent.onBinaryMessage(messageHandler);
 
+        if (typeof priority === 'number') {
+            agent._priority = priority;
+        }
+
         return agent;
     }
 
@@ -54,10 +65,16 @@ export class MessageAgent {
     private _onBinaryMessage?: BinaryMessageHandler;
 
     private _convertBufferToString: boolean;
+    private _priority: number;
 
     private constructor() {
 
         this._convertBufferToString = false;
+        this._priority = 0;
+    }
+
+    public get priority(): number {
+        return this._priority;
     }
 
     public onUTF8Message(messageHandler: UTF8MessageHandler): this {

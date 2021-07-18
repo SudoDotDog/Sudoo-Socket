@@ -11,7 +11,9 @@ export type MessageAgentOptions = {
 
     readonly onUTF8Message?: UTF8MessageHandler;
     readonly onBinaryMessage?: BinaryMessageHandler;
+
     readonly convertBufferToString?: boolean;
+    readonly priority?: number;
 };
 
 export type Stringifyable = {
