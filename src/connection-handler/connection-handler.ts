@@ -17,6 +17,11 @@ export class ConnectionHandler {
         return this.whenSatisfy();
     }
 
+    public static allowNothing(): ConnectionHandler {
+
+        return this.whenSatisfy(() => false);
+    }
+
     public static whenSatisfy(...requirements: ConnectionEstablishRequirement[]): ConnectionHandler {
 
         return new ConnectionHandler(requirements);

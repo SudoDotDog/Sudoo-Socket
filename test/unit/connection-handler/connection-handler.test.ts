@@ -20,4 +20,22 @@ describe('Given {ConnectionHandler} Class', (): void => {
 
         expect(handler).to.be.instanceof(ConnectionHandler);
     });
+
+    it('should be able to establish when allow all', (): void => {
+
+        const handler: ConnectionHandler = ConnectionHandler.allowAll();
+
+        const shouldEstablish = handler.shouldEstablish({} as any);
+
+        expect(shouldEstablish).to.be.true;
+    });
+
+    it('should be able to reject when allow nothing', (): void => {
+
+        const handler: ConnectionHandler = ConnectionHandler.allowNothing();
+
+        const shouldEstablish = handler.shouldEstablish({} as any);
+
+        expect(shouldEstablish).to.be.false;
+    });
 });
