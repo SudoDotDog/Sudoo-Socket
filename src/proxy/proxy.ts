@@ -16,9 +16,17 @@ export class MessageProxy implements IMessageProxy {
 
     private readonly _connection: WebsocketConnection;
 
+    private _shouldContinue: boolean;
+
     private constructor(connection: WebsocketConnection) {
 
         this._connection = connection;
+
+        this._shouldContinue = true;
+    }
+
+    public get shouldContinue(): boolean {
+        return this._shouldContinue;
     }
 
     public send(data: AvailableSocketDataType): this {
@@ -30,6 +38,12 @@ export class MessageProxy implements IMessageProxy {
         }
 
         this._connection.sendUTF(data.toString());
+        return this;
+    }
+
+    public stopPropagation(): this {
+
+        this._shouldContinue = false;
         return this;
     }
 }

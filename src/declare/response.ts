@@ -21,5 +21,8 @@ export type AvailableSocketDataType = Stringifyable | Buffer;
 
 export interface IMessageProxy {
 
-    send(data: AvailableSocketDataType): any;
+    readonly shouldContinue: boolean;
+
+    send(data: AvailableSocketDataType): IMessageProxy;
+    stopPropagation(): IMessageProxy;
 }

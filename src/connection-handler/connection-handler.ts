@@ -83,6 +83,10 @@ export class ConnectionHandler {
             } else if (message.type === 'binary') {
                 messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
             }
+
+            if (!proxy.shouldContinue) {
+                return this;
+            }
         }
         return this;
     }
