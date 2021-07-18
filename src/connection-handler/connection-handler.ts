@@ -11,6 +11,11 @@ import { MessageProxy } from "../proxy/proxy";
 
 export class ConnectionHandler {
 
+    public static allowAll(): ConnectionHandler {
+
+        return this.whenSatisfy();
+    }
+
     public static whenSatisfy(...requirements: ConnectionEstablishRequirement[]): ConnectionHandler {
 
         return new ConnectionHandler(requirements);

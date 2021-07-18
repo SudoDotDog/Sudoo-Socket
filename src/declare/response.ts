@@ -5,12 +5,12 @@
  */
 
 export type UTF8MessageHandler = (proxy: IMessageProxy, message: string) => void;
-export type OnBinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void;
+export type BinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void;
 
 export type MessageAgentOptions = {
 
     readonly onUTF8Message?: UTF8MessageHandler;
-    readonly onBinaryMessage?: OnBinaryMessageHandler;
+    readonly onBinaryMessage?: BinaryMessageHandler;
     readonly convertBufferToString?: boolean;
 };
 

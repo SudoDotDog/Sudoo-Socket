@@ -98,12 +98,4 @@ export class SocketServer {
         request.reject();
         return this;
     }
-
-    private _ensureServer(): WebsocketServer {
-
-        if (!this._socketServer) {
-            throw new Error("[Sudoo-Socket] SocketServer not mounted");
-        }
-        return this._socketServer;
-    }
 }

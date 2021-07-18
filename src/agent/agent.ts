@@ -4,7 +4,7 @@
  * @description Agent
  */
 
-import { IMessageProxy, MessageAgentOptions, OnBinaryMessageHandler, UTF8MessageHandler } from "../declare/response";
+import { IMessageProxy, MessageAgentOptions, BinaryMessageHandler, UTF8MessageHandler } from "../declare/response";
 
 export class MessageAgent {
 
@@ -38,7 +38,7 @@ export class MessageAgent {
         return agent;
     }
 
-    public static binary(messageHandler: OnBinaryMessageHandler): MessageAgent {
+    public static binary(messageHandler: BinaryMessageHandler): MessageAgent {
 
         const agent: MessageAgent = new MessageAgent();
         agent.setConvertBufferToString(false);
@@ -51,7 +51,7 @@ export class MessageAgent {
     }
 
     private _onUTF8Message?: UTF8MessageHandler;
-    private _onBinaryMessage?: OnBinaryMessageHandler;
+    private _onBinaryMessage?: BinaryMessageHandler;
 
     private _convertBufferToString: boolean;
 
@@ -66,7 +66,7 @@ export class MessageAgent {
         return this;
     }
 
-    public onBinaryMessage(messageHandler: OnBinaryMessageHandler): this {
+    public onBinaryMessage(messageHandler: BinaryMessageHandler): this {
 
         this._onBinaryMessage = messageHandler;
         return this;
