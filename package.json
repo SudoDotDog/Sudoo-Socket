@@ -1,6 +1,6 @@
 {
   "name": "@sudoo/socket",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": ":paperclip: Socket Wrapper",
   "main": "index.js",
   "directories": {
@@ -17,8 +17,6 @@
   },
   "homepage": "https://github.com/SudoDotDog/Sudoo-Socket#readme",
   "dependencies": {
-    "@sudoo/magic": "^1.8.0",
-    "socket.io": "^4.1.3",
     "websocket": "^1.0.34"
   },
   "devDependencies": {
