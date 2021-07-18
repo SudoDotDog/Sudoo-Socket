@@ -13,10 +13,10 @@ export const sortMessageAgents = (messageAgents: Iterable<MessageAgent>): Messag
     ].sort((a: MessageAgent, b: MessageAgent) => {
 
         if (a.priority > b.priority) {
-            return 1;
+            return -1;
         }
         if (a.priority < b.priority) {
-            return -1;
+            return 1;
         }
         return 0;
     });

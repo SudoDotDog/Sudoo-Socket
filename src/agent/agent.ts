@@ -17,6 +17,12 @@ export class MessageAgent {
             return agent;
         }
 
+        if (typeof options.name === 'string') {
+            agent._name = options.name;
+        }
+        if (typeof options.priority === 'number') {
+            agent._priority = options.priority;
+        }
         if (options.convertBufferToString) {
             agent.setConvertBufferToString(true);
         }
@@ -26,52 +32,49 @@ export class MessageAgent {
         if (options.onBinaryMessage) {
             agent.onBinaryMessage(options.onBinaryMessage);
         }
-        if (typeof options.priority === 'number') {
-            agent._priority = options.priority;
-        }
-
         return agent;
     }
 
-    public static utf8(messageHandler: UTF8MessageHandler, priority?: number): MessageAgent {
+    public static utf8(messageHandler: UTF8MessageHandler, name?: string, priority?: number): MessageAgent {
 
-        const agent: MessageAgent = new MessageAgent();
-        agent.setConvertBufferToString(true);
-        agent.onUTF8Message(messageHandler);
-
-        if (typeof priority === 'number') {
-            agent._priority = priority;
-        }
-
-        return agent;
-    }
-
-    public static binary(messageHandler: BinaryMessageHandler, priority?: number): MessageAgent {
-
-        const agent: MessageAgent = new MessageAgent();
-        agent.setConvertBufferToString(false);
-        agent.onUTF8Message((proxy: IMessageProxy, message: string) => {
-            messageHandler(proxy, Buffer.from(message, 'utf-8'));
+        return this.create({
+            name,
+            priority,
+            convertBufferToString: true,
+            onUTF8Message: messageHandler,
         });
-        agent.onBinaryMessage(messageHandler);
-
-        if (typeof priority === 'number') {
-            agent._priority = priority;
-        }
-
-        return agent;
     }
+
+    public static binary(messageHandler: BinaryMessageHandler, name?: string, priority?: number): MessageAgent {
+
+        return this.create({
+            name,
+            priority,
+            convertBufferToString: false,
+            onBinaryMessage: messageHandler,
+            onUTF8Message: (proxy: IMessageProxy, message: string) => {
+                messageHandler(proxy, Buffer.from(message, 'utf-8'));
+            },
+        });
+    }
+
+    protected _name?: string;
+
+    protected _priority: number;
+
+    protected _convertBufferToString: boolean;
 
     protected _onUTF8Message?: UTF8MessageHandler;
     protected _onBinaryMessage?: BinaryMessageHandler;
-
-    protected _convertBufferToString: boolean;
-    protected _priority: number;
 
     protected constructor() {
 
         this._convertBufferToString = false;
         this._priority = 0;
+    }
+
+    public get name(): string | undefined {
+        return this._name;
     }
 
     public get priority(): number {

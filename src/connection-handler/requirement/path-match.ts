@@ -1,10 +1,10 @@
 /**
  * @author WMXPY
- * @namespace Socket_ConnectionHandler
+ * @namespace Socket_ConnectionHandler_Requirement
  * @description Path Match
  */
 
-import { ConnectionEstablishRequirement, ConnectionInformation } from "../declare/connection";
+import { ConnectionEstablishRequirement, ConnectionInformation } from "../../declare/connection";
 
 export const createPathMatchConnectionEstablishRequirement = (path: string): ConnectionEstablishRequirement => {
 

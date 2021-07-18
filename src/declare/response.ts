@@ -11,9 +11,11 @@ export type BinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => vo
 
 export type MessageAgentOptions = {
 
-    readonly onUTF8Message?: UTF8MessageHandler;
-    readonly onBinaryMessage?: BinaryMessageHandler;
+    readonly name?: string;
+    readonly priority?: number;
 
     readonly convertBufferToString?: boolean;
-    readonly priority?: number;
+
+    readonly onUTF8Message?: UTF8MessageHandler;
+    readonly onBinaryMessage?: BinaryMessageHandler;
 };

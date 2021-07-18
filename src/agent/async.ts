@@ -18,6 +18,9 @@ export class MessageAsyncAgent extends MessageAgent {
             return agent;
         }
 
+        if (typeof options.name === 'string') {
+            agent._name = options.name;
+        }
         if (options.convertBufferToString) {
             agent.setConvertBufferToString(true);
         }
@@ -34,33 +37,27 @@ export class MessageAsyncAgent extends MessageAgent {
         return agent;
     }
 
-    public static utf8(messageHandler: UTF8MessageHandler, priority?: number): MessageAsyncAgent {
+    public static utf8(messageHandler: UTF8MessageHandler, name?: string, priority?: number): MessageAsyncAgent {
 
-        const agent: MessageAsyncAgent = new MessageAsyncAgent();
-        agent.setConvertBufferToString(true);
-        agent.onUTF8Message(messageHandler);
-
-        if (typeof priority === 'number') {
-            agent._priority = priority;
-        }
-
-        return agent;
+        return this.create({
+            name,
+            priority,
+            convertBufferToString: true,
+            onUTF8Message: messageHandler,
+        });
     }
 
-    public static binary(messageHandler: BinaryMessageHandler, priority?: number): MessageAsyncAgent {
+    public static binary(messageHandler: BinaryMessageHandler, name?: string, priority?: number): MessageAsyncAgent {
 
-        const agent: MessageAsyncAgent = new MessageAsyncAgent();
-        agent.setConvertBufferToString(false);
-        agent.onUTF8Message((proxy: IMessageProxy, message: string) => {
-            messageHandler(proxy, Buffer.from(message, 'utf-8'));
+        return this.create({
+            name,
+            priority,
+            convertBufferToString: false,
+            onBinaryMessage: messageHandler,
+            onUTF8Message: (proxy: IMessageProxy, message: string) => {
+                messageHandler(proxy, Buffer.from(message, 'utf-8'));
+            },
         });
-        agent.onBinaryMessage(messageHandler);
-
-        if (typeof priority === 'number') {
-            agent._priority = priority;
-        }
-
-        return agent;
     }
 
     private constructor() {
