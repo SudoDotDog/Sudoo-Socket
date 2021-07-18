@@ -11,7 +11,6 @@ import { ConnectionHandler } from "../../../src";
 
 describe('Given {ConnectionHandler} Class', (): void => {
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const chance: Chance.Chance = new Chance('socket-connect-handler-connect-handler');
 
     it('should be able to construct', (): void => {
@@ -25,7 +24,7 @@ describe('Given {ConnectionHandler} Class', (): void => {
 
         const handler: ConnectionHandler = ConnectionHandler.allowAll();
 
-        const shouldEstablish = handler.shouldEstablish({} as any);
+        const shouldEstablish = handler.shouldEstablish(chance.string() as any);
 
         expect(shouldEstablish).to.be.true;
     });
@@ -34,7 +33,7 @@ describe('Given {ConnectionHandler} Class', (): void => {
 
         const handler: ConnectionHandler = ConnectionHandler.allowNothing();
 
-        const shouldEstablish = handler.shouldEstablish({} as any);
+        const shouldEstablish = handler.shouldEstablish(chance.string() as any);
 
         expect(shouldEstablish).to.be.false;
     });
