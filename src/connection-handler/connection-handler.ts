@@ -6,9 +6,9 @@
 
 import { connection as WebsocketConnection, IMessage } from "websocket";
 import { MessageAgent } from "../agent/agent";
-import { MessageAsyncAgent } from "../agent/async";
 import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction } from "../declare/connection";
-import { MessageProxy } from "../proxy/proxy";
+import { triggerEmitMessage } from "../util/emit-message";
+import { sortMessageAgents } from "../util/sort-agents";
 
 export class ConnectionHandler {
 
@@ -65,7 +65,7 @@ export class ConnectionHandler {
     public establish(connection: WebsocketConnection): this {
 
         connection.on('message', (data: IMessage) => {
-            this._triggerMessage(connection, data);
+            this._emitMessage(connection, data);
         });
 
         connection.on('close', (reason: number, description: string) => {
@@ -74,32 +74,10 @@ export class ConnectionHandler {
         return this;
     }
 
-    private async _triggerMessage(connection: WebsocketConnection, message: IMessage): Promise<void> {
+    private async _emitMessage(connection: WebsocketConnection, message: IMessage): Promise<void> {
 
-        const sortedAgents: MessageAgent[] = this._getSortedAgents();
-        for (const messageAgent of sortedAgents) {
-
-            const proxy: MessageProxy = MessageProxy.create(connection);
-            if (messageAgent instanceof MessageAsyncAgent) {
-
-                if (message.type === 'utf8') {
-                    await messageAgent.emitUTF8Message(proxy, message.utf8Data as string);
-                } else if (message.type === 'binary') {
-                    await messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
-                }
-            } else {
-
-                if (message.type === 'utf8') {
-                    messageAgent.emitUTF8Message(proxy, message.utf8Data as string);
-                } else if (message.type === 'binary') {
-                    messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
-                }
-            }
-
-            if (!proxy.shouldContinue) {
-                return;
-            }
-        }
+        const sortedAgents: MessageAgent[] = sortMessageAgents(this._messageAgents);
+        triggerEmitMessage(sortedAgents, connection, message);
         return;
     }
 
@@ -109,21 +87,5 @@ export class ConnectionHandler {
             this._onConnectionClose(reason, description);
         }
         return this;
-    }
-
-    private _getSortedAgents(): MessageAgent[] {
-
-        return [
-            ...this._messageAgents,
-        ].sort((a: MessageAgent, b: MessageAgent) => {
-
-            if (a.priority > b.priority) {
-                return 1;
-            }
-            if (a.priority < b.priority) {
-                return -1;
-            }
-            return 0;
-        });
     }
 }
