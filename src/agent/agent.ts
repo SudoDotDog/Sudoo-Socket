@@ -4,7 +4,7 @@
  * @description Agent
  */
 
-import { IMessageProxy, MessageAgentOptions, OnBinaryMessageHandler, UTF8MessageHandler } from "./declare";
+import { IMessageProxy, MessageAgentOptions, OnBinaryMessageHandler, UTF8MessageHandler } from "../declare";
 
 export class MessageAgent {
 

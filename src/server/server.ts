@@ -6,9 +6,9 @@
 
 import * as HTTP from "http";
 import { connection as WebsocketConnection, request as WebsocketRequest, server as WebsocketServer } from "websocket";
-import { ConnectionHandler } from "./connection-handler/connection-handler";
-import { ConnectionInformation } from "./declare";
-import { extractConnectionInformation } from "./util/extract";
+import { ConnectionHandler } from "../connection-handler/connection-handler";
+import { ConnectionInformation } from "../declare";
+import { extractConnectionInformation } from "../util/extract";
 
 export class SocketServer {
 
