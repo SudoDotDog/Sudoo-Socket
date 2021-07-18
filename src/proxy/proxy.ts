@@ -5,7 +5,7 @@
  */
 
 import { connection as WebsocketConnection } from "websocket";
-import { AvailableSocketDataType, IMessageProxy } from "../declare/response";
+import { AvailableSocketDataType, IMessageProxy } from "../declare/proxy";
 
 export class MessageProxy implements IMessageProxy {
 

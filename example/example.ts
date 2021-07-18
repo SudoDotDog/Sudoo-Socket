@@ -5,7 +5,8 @@
  */
 
 import * as HTTP from "http";
-import { ConnectionHandler, createPathMatchConnectionEstablishRequirement, IMessageProxy, MessageAgent, SocketServer } from "../src";
+import { ConnectionHandler, createPathMatchConnectionEstablishRequirement, MessageAgent, SocketServer } from "../src";
+import { IMessageProxy } from "../src/declare/proxy";
 
 const server = HTTP.createServer(function (request: any, response: any) {
 

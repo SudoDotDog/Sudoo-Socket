@@ -6,6 +6,7 @@
 
 import { connection as WebsocketConnection, IMessage } from "websocket";
 import { MessageAgent } from "../agent/agent";
+import { MessageAsyncAgent } from "../agent/async";
 import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction } from "../declare/connection";
 import { MessageProxy } from "../proxy/proxy";
 
@@ -73,23 +74,33 @@ export class ConnectionHandler {
         return this;
     }
 
-    private _triggerMessage(connection: WebsocketConnection, message: IMessage): this {
+    private async _triggerMessage(connection: WebsocketConnection, message: IMessage): Promise<void> {
 
         const sortedAgents: MessageAgent[] = this._getSortedAgents();
         for (const messageAgent of sortedAgents) {
 
             const proxy: MessageProxy = MessageProxy.create(connection);
-            if (message.type === 'utf8') {
-                messageAgent.emitUTF8Message(proxy, message.utf8Data as string);
-            } else if (message.type === 'binary') {
-                messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
+            if (messageAgent instanceof MessageAsyncAgent) {
+
+                if (message.type === 'utf8') {
+                    await messageAgent.emitUTF8Message(proxy, message.utf8Data as string);
+                } else if (message.type === 'binary') {
+                    await messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
+                }
+            } else {
+
+                if (message.type === 'utf8') {
+                    messageAgent.emitUTF8Message(proxy, message.utf8Data as string);
+                } else if (message.type === 'binary') {
+                    messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
+                }
             }
 
             if (!proxy.shouldContinue) {
-                return this;
+                return;
             }
         }
-        return this;
+        return;
     }
 
     private _triggerClose(reason: number, description: string): this {

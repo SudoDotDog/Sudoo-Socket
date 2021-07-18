@@ -4,8 +4,10 @@
  * @description Response
  */
 
-export type UTF8MessageHandler = (proxy: IMessageProxy, message: string) => void;
-export type BinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void;
+import { IMessageProxy } from "./proxy";
+
+export type UTF8MessageHandler = (proxy: IMessageProxy, message: string) => void | Promise<void>;
+export type BinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void | Promise<void>;
 
 export type MessageAgentOptions = {
 
@@ -15,16 +17,3 @@ export type MessageAgentOptions = {
     readonly convertBufferToString?: boolean;
     readonly priority?: number;
 };
-
-export type Stringifyable = {
-    toString: (...args: any[]) => string;
-};
-export type AvailableSocketDataType = Stringifyable | Buffer;
-
-export interface IMessageProxy {
-
-    readonly shouldContinue: boolean;
-
-    send(data: AvailableSocketDataType): IMessageProxy;
-    stopPropagation(): IMessageProxy;
-}
