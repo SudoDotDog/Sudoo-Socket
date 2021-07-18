@@ -4,7 +4,7 @@
  * @description Path Match
  */
 
-import { ConnectionEstablishRequirement, ConnectionInformation } from "../declare";
+import { ConnectionEstablishRequirement, ConnectionInformation } from "../declare/connection";
 
 export const createPathMatchConnectionEstablishRequirement = (path: string): ConnectionEstablishRequirement => {
 

@@ -6,7 +6,7 @@
 
 import { connection as WebsocketConnection, IMessage } from "websocket";
 import { MessageAgent } from "../agent/agent";
-import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction } from "../declare";
+import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction } from "../declare/connection";
 import { MessageProxy } from "../proxy/proxy";
 
 export class ConnectionHandler {

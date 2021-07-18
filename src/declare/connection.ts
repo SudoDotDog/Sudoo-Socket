@@ -1,7 +1,7 @@
 /**
  * @author WMXPY
- * @namespace Socket
- * @description Declare
+ * @namespace Socket_Declare
+ * @description Connection
  */
 
 export type ConnectionURL = {
@@ -29,25 +29,6 @@ export type ConnectionInformation = {
     readonly userAgent: string;
     readonly websocketVersion: number;
 };
+
 export type ConnectionEstablishRequirement = (information: ConnectionInformation) => boolean;
 export type OnConnectionCloseFunction = (reason: number, description: string) => void;
-
-export type UTF8MessageHandler = (proxy: IMessageProxy, message: string) => void;
-export type OnBinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void;
-
-export type MessageAgentOptions = {
-
-    readonly onUTF8Message?: UTF8MessageHandler;
-    readonly onBinaryMessage?: OnBinaryMessageHandler;
-    readonly convertBufferToString?: boolean;
-};
-
-export type Stringifyable = {
-    toString: (...args: any[]) => string;
-};
-export type AvailableSocketDataType = Stringifyable | Buffer;
-
-export interface IMessageProxy {
-
-    send(data: AvailableSocketDataType): any;
-}
