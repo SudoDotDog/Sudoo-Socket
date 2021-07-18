@@ -6,7 +6,7 @@
 
 import { Url } from "url";
 import { request as WebsocketRequest } from "websocket";
-import { ConnectionInformation, ConnectionURL } from "../declare";
+import { ConnectionInformation, ConnectionURL } from "../declare/connection";
 
 const extractResourceURL = (original: Url): ConnectionURL => {
 

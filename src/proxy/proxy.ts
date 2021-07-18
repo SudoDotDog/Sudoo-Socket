@@ -1,6 +1,6 @@
 /**
  * @author WMXPY
- * @namespace Socket
+ * @namespace Socket_Proxy
  * @description Proxy
  */
 

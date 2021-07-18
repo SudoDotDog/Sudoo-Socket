@@ -1,7 +1,7 @@
 /**
  * @author WMXPY
- * @namespace Socket
- * @description Socket
+ * @namespace Socket_Server
+ * @description Server
  */
 
 import * as HTTP from "http";
