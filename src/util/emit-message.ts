@@ -4,11 +4,11 @@
  * @description Emit Message
  */
 
-import { connection as WebsocketConnection, IMessage } from "websocket";
+import { connection as WebsocketConnection, Message } from "websocket";
 import { MessageAsyncAgent, MessageProxy } from "..";
 import { MessageAgent } from "../agent/agent";
 
-export const triggerEmitMessage = async (messageAgents: MessageAgent[], connection: WebsocketConnection, message: IMessage): Promise<void> => {
+export const triggerEmitMessage = async (messageAgents: MessageAgent[], connection: WebsocketConnection, message: Message): Promise<void> => {
 
     for (const messageAgent of messageAgents) {
 

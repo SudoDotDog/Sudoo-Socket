@@ -1,8 +1,7 @@
 {
   "name": "@sudoo/socket",
   "version": "2.0.0",
-  "description": ":paperclip: Socket Wrapper",
-  "main": "index.js",
+  "description": "Socket Server for JS",
   "directories": {
     "doc": "docs"
   },
