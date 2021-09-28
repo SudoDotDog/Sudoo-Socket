@@ -4,7 +4,7 @@
  * @description Connection Handler
  */
 
-import { connection as WebsocketConnection, IMessage } from "websocket";
+import { connection as WebsocketConnection, Message } from "websocket";
 import { MessageAgent } from "../agent/agent";
 import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction } from "../declare/connection";
 import { triggerEmitMessage } from "../util/emit-message";
@@ -69,7 +69,7 @@ export class ConnectionHandler {
 
     public establish(connection: WebsocketConnection): this {
 
-        connection.on('message', (data: IMessage) => {
+        connection.on('message', (data: Message) => {
             this._emitMessage(connection, data);
         });
 
@@ -79,7 +79,7 @@ export class ConnectionHandler {
         return this;
     }
 
-    private async _emitMessage(connection: WebsocketConnection, message: IMessage): Promise<void> {
+    private async _emitMessage(connection: WebsocketConnection, message: Message): Promise<void> {
 
         const sortedAgents: MessageAgent[] = sortMessageAgents(this._messageAgents);
         triggerEmitMessage(sortedAgents, connection, message);
