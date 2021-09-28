@@ -16,16 +16,16 @@ export const triggerEmitMessage = async (messageAgents: MessageAgent[], connecti
         if (messageAgent instanceof MessageAsyncAgent) {
 
             if (message.type === 'utf8') {
-                await messageAgent.emitUTF8Message(proxy, message.utf8Data as string);
+                await messageAgent.emitUTF8Message(proxy, message.utf8Data);
             } else if (message.type === 'binary') {
-                await messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
+                await messageAgent.emitBinaryMessage(proxy, message.binaryData);
             }
         } else {
 
             if (message.type === 'utf8') {
-                messageAgent.emitUTF8Message(proxy, message.utf8Data as string);
+                messageAgent.emitUTF8Message(proxy, message.utf8Data);
             } else if (message.type === 'binary') {
-                messageAgent.emitBinaryMessage(proxy, message.binaryData as Buffer);
+                messageAgent.emitBinaryMessage(proxy, message.binaryData);
             }
         }
 
