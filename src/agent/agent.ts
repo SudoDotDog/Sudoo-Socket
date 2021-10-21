@@ -5,7 +5,7 @@
  */
 
 import { IMessageProxy } from "../declare/proxy";
-import { BinaryMessageHandler, MessageAgentOptions, UTF8MessageHandler } from "../declare/response";
+import { BinaryMessageHandler, JsonMessageHandler, MessageAgentOptions, UTF8MessageHandler } from "../declare/response";
 
 export class MessageAgent {
 
@@ -41,8 +41,18 @@ export class MessageAgent {
             name,
             priority,
             convertBufferToString: true,
+            onBinaryMessage: (proxy: IMessageProxy, message: Buffer) => {
+                messageHandler(proxy, message.toString('utf-8'));
+            },
             onUTF8Message: messageHandler,
         });
+    }
+
+    public static json<T extends any = any>(messageHandler: JsonMessageHandler<T>, name?: string, priority?: number): MessageAgent {
+
+        return this.utf8((proxy: IMessageProxy, message: string) => {
+            messageHandler(proxy, JSON.parse(message));
+        }, name, priority);
     }
 
     public static binary(messageHandler: BinaryMessageHandler, name?: string, priority?: number): MessageAgent {

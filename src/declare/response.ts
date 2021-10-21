@@ -7,6 +7,7 @@
 import { IMessageProxy } from "./proxy";
 
 export type UTF8MessageHandler = (proxy: IMessageProxy, message: string) => void | Promise<void>;
+export type JsonMessageHandler<T extends any = any> = (proxy: IMessageProxy, message: T) => void | Promise<void>;
 export type BinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void | Promise<void>;
 
 export type MessageAgentOptions = {
