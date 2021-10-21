@@ -53,7 +53,12 @@ export class MessageAgent {
 
         return this.utf8((proxy: IMessageProxy, message: string): void | Promise<void> => {
 
-            return messageHandler(proxy, JSON.parse(message));
+            try {
+                const parsed: T = JSON.parse(message);
+                return messageHandler(proxy, parsed);
+            } catch (error) {
+                return messageHandler(proxy, null);
+            }
         }, name, priority);
     }
 
