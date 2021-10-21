@@ -41,8 +41,9 @@ export class MessageAgent {
             name,
             priority,
             convertBufferToString: true,
-            onBinaryMessage: (proxy: IMessageProxy, message: Buffer) => {
-                messageHandler(proxy, message.toString('utf-8'));
+            onBinaryMessage: (proxy: IMessageProxy, message: Buffer): void | Promise<void> => {
+
+                return messageHandler(proxy, message.toString('utf-8'));
             },
             onUTF8Message: messageHandler,
         });
@@ -50,8 +51,9 @@ export class MessageAgent {
 
     public static json<T extends any = any>(messageHandler: JsonMessageHandler<T>, name?: string, priority?: number): MessageAgent {
 
-        return this.utf8((proxy: IMessageProxy, message: string) => {
-            messageHandler(proxy, JSON.parse(message));
+        return this.utf8((proxy: IMessageProxy, message: string): void | Promise<void> => {
+
+            return messageHandler(proxy, JSON.parse(message));
         }, name, priority);
     }
 
@@ -62,8 +64,9 @@ export class MessageAgent {
             priority,
             convertBufferToString: false,
             onBinaryMessage: messageHandler,
-            onUTF8Message: (proxy: IMessageProxy, message: string) => {
-                messageHandler(proxy, Buffer.from(message, 'utf-8'));
+            onUTF8Message: (proxy: IMessageProxy, message: string): void | Promise<void> => {
+
+                return messageHandler(proxy, Buffer.from(message, 'utf-8'));
             },
         });
     }
