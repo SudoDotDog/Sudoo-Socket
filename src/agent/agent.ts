@@ -38,6 +38,7 @@ export class MessageAgent {
     public static utf8(messageHandler: UTF8MessageHandler, name?: string, priority?: number): MessageAgent {
 
         return this.create({
+
             name,
             priority,
             convertBufferToString: true,
@@ -65,6 +66,7 @@ export class MessageAgent {
     public static binary(messageHandler: BinaryMessageHandler, name?: string, priority?: number): MessageAgent {
 
         return this.create({
+
             name,
             priority,
             convertBufferToString: false,

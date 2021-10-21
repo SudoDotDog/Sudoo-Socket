@@ -41,6 +41,23 @@ export class MessageProxy implements IMessageProxy {
         return this;
     }
 
+    public sendAsBuffer(data: any): this {
+
+        if (Buffer.isBuffer(data)) {
+
+            this._connection.sendBytes(data);
+            return this;
+        }
+        this._connection.sendBytes(Buffer.from(data));
+        return this;
+    }
+
+    public sendAsJson<T extends any>(data: T): this {
+
+        this._connection.sendUTF(JSON.stringify(data));
+        return this;
+    }
+
     public stopPropagation(): this {
 
         this._shouldContinue = false;
