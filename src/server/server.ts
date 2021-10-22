@@ -4,9 +4,9 @@
  * @description Server
  */
 
-import { UUIDVersion4 } from "@sudoo/uuid";
 import * as HTTP from "http";
 import { connection as WebsocketConnection, request as WebsocketRequest, server as WebsocketServer } from "websocket";
+import { UUIDVersion1IdentifierGenerationFunction } from "..";
 import { ConnectionHandler } from "../connection-handler/connection-handler";
 import { ConnectionInformation } from "../declare/connection";
 import { ServerIdentifierGenerationFunction } from "../declare/server";
@@ -33,6 +33,8 @@ export class SocketServer {
 
         this._connectionHandlers = new Set();
         this._connections = new Map();
+
+        this._identifierGenerationFunction = UUIDVersion1IdentifierGenerationFunction;
     }
 
     public attach(server: HTTP.Server): this {
@@ -83,7 +85,7 @@ export class SocketServer {
     private _onRequest(request: WebsocketRequest): this {
 
         const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
-        const identifier: string = UUIDVersion4.generateString();
+        const identifier: string = this._identifierGenerationFunction(request);
 
         for (const handler of this._connectionHandlers) {
 

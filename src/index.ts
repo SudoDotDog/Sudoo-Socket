@@ -11,6 +11,8 @@ export * from "./connection-handler/requirement/path-match";
 export * from "./declare/connection";
 export * from "./declare/proxy";
 export * from "./declare/response";
+export * from "./declare/server";
 export * from "./proxy/proxy";
+export * from "./server/identifier";
 export * from "./server/server";
 

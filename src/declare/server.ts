@@ -1,7 +1,7 @@
 /**
  * @author WMXPY
  * @namespace Socket_Declare
- * @description Proxy
+ * @description Server
  */
 
 import { request as WebsocketRequest } from "websocket";
