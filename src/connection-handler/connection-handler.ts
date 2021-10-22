@@ -6,7 +6,8 @@
 
 import { connection as WebsocketConnection, Message } from "websocket";
 import { MessageAgent } from "../agent/agent";
-import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction } from "../declare/connection";
+import { ConnectionEstablishRequirement, ConnectionInformation, OnConnectionCloseFunction, OnConnectionEstablishFunction } from "../declare/connection";
+import { MessageProxy } from "../proxy/proxy";
 import { triggerEmitMessage } from "../util/emit-message";
 import { sortMessageAgents } from "../util/sort-agents";
 
@@ -30,12 +31,16 @@ export class ConnectionHandler {
     private readonly _requirements: ConnectionEstablishRequirement[];
     private readonly _messageAgents: Set<MessageAgent>;
 
-    private _onConnectionClose?: OnConnectionCloseFunction;
+    private readonly _onConnectionEstablishFunctions: Set<OnConnectionEstablishFunction>;
+    private readonly _onConnectionCloseFunctions: Set<OnConnectionCloseFunction>;
 
     private constructor(requirements: ConnectionEstablishRequirement[]) {
 
         this._requirements = requirements;
         this._messageAgents = new Set<MessageAgent>();
+
+        this._onConnectionEstablishFunctions = new Set<OnConnectionEstablishFunction>();
+        this._onConnectionCloseFunctions = new Set<OnConnectionCloseFunction>();
     }
 
     public addMessageAgent(messageAgent: MessageAgent): this {
@@ -50,9 +55,27 @@ export class ConnectionHandler {
         return this;
     }
 
-    public onConnectionClose(onConnectionClose: OnConnectionCloseFunction): this {
+    public addOnConnectionEstablishFunction(onConnectionEstablishFunction: OnConnectionEstablishFunction): this {
 
-        this._onConnectionClose = onConnectionClose;
+        this._onConnectionEstablishFunctions.add(onConnectionEstablishFunction);
+        return this;
+    }
+
+    public removeOnConnectionEstablishFunction(onConnectionEstablishFunction: OnConnectionEstablishFunction): this {
+
+        this._onConnectionEstablishFunctions.delete(onConnectionEstablishFunction);
+        return this;
+    }
+
+    public addOnConnectionCloseFunction(onConnectionCloseFunction: OnConnectionCloseFunction): this {
+
+        this._onConnectionCloseFunctions.add(onConnectionCloseFunction);
+        return this;
+    }
+
+    public removeOnConnectionCloseFunction(onConnectionCloseFunction: OnConnectionCloseFunction): this {
+
+        this._onConnectionCloseFunctions.delete(onConnectionCloseFunction);
         return this;
     }
 
@@ -76,6 +99,8 @@ export class ConnectionHandler {
         connection.on('close', (reason: number, description: string) => {
             this._triggerClose(identifier, reason, description);
         });
+
+        this._triggerEstablish(identifier, connection);
         return this;
     }
 
@@ -86,10 +111,19 @@ export class ConnectionHandler {
         return;
     }
 
+    private _triggerEstablish(identifier: string, connection: WebsocketConnection): this {
+
+        const proxy: MessageProxy = MessageProxy.create(connection, identifier);
+        for (const onConnectionEstablishFunction of this._onConnectionEstablishFunctions) {
+            onConnectionEstablishFunction(identifier, proxy);
+        }
+        return this;
+    }
+
     private _triggerClose(identifier: string, reason: number, description: string): this {
 
-        if (this._onConnectionClose) {
-            this._onConnectionClose(identifier, reason, description);
+        for (const onConnectionCloseFunction of this._onConnectionCloseFunctions) {
+            onConnectionCloseFunction(identifier, reason, description);
         }
         return this;
     }

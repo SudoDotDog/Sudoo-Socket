@@ -4,6 +4,8 @@
  * @description Connection
  */
 
+import { IMessageProxy } from "./proxy";
+
 export type ConnectionURL = {
 
     readonly href: string;
@@ -31,4 +33,5 @@ export type ConnectionInformation = {
 };
 
 export type ConnectionEstablishRequirement = (information: ConnectionInformation) => boolean;
+export type OnConnectionEstablishFunction = (identifier: string, proxy: IMessageProxy) => void;
 export type OnConnectionCloseFunction = (identifier: string, reason: number, description: string) => void;
