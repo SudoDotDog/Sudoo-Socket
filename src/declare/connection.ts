@@ -31,4 +31,4 @@ export type ConnectionInformation = {
 };
 
 export type ConnectionEstablishRequirement = (information: ConnectionInformation) => boolean;
-export type OnConnectionCloseFunction = (reason: number, description: string) => void;
+export type OnConnectionCloseFunction = (identifier: string, reason: number, description: string) => void;

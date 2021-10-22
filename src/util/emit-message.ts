@@ -8,11 +8,11 @@ import { connection as WebsocketConnection, Message } from "websocket";
 import { MessageAsyncAgent, MessageProxy } from "..";
 import { MessageAgent } from "../agent/agent";
 
-export const triggerEmitMessage = async (messageAgents: MessageAgent[], connection: WebsocketConnection, message: Message): Promise<void> => {
+export const triggerEmitMessage = async (identifier: string, messageAgents: MessageAgent[], connection: WebsocketConnection, message: Message): Promise<void> => {
 
     for (const messageAgent of messageAgents) {
 
-        const proxy: MessageProxy = MessageProxy.create(connection);
+        const proxy: MessageProxy = MessageProxy.create(connection, identifier);
         if (messageAgent instanceof MessageAsyncAgent) {
 
             if (message.type === 'utf8') {

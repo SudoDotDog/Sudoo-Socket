@@ -9,24 +9,29 @@ import { AvailableSocketDataType, IMessageProxy } from "../declare/proxy";
 
 export class MessageProxy implements IMessageProxy {
 
-    public static create(connection: WebsocketConnection): MessageProxy {
+    public static create(connection: WebsocketConnection, identifier: string): MessageProxy {
 
-        return new MessageProxy(connection);
+        return new MessageProxy(connection, identifier);
     }
 
+    private readonly _identifier: string;
     private readonly _connection: WebsocketConnection;
 
     private _shouldContinue: boolean;
 
-    private constructor(connection: WebsocketConnection) {
+    private constructor(connection: WebsocketConnection, identifier: string) {
 
         this._connection = connection;
+        this._identifier = identifier;
 
         this._shouldContinue = true;
     }
 
     public get shouldContinue(): boolean {
         return this._shouldContinue;
+    }
+    public get identifier(): string {
+        return this._identifier;
     }
 
     public send(data: AvailableSocketDataType): this {

@@ -4,6 +4,7 @@
  * @description Server
  */
 
+import { UUIDVersion4 } from "@sudoo/uuid";
 import * as HTTP from "http";
 import { connection as WebsocketConnection, request as WebsocketRequest, server as WebsocketServer } from "websocket";
 import { ConnectionHandler } from "../connection-handler/connection-handler";
@@ -79,6 +80,8 @@ export class SocketServer {
     private _onRequest(request: WebsocketRequest): this {
 
         const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
+        const identifier: string = UUIDVersion4.generateString();
+
         for (const handler of this._connectionHandlers) {
 
             if (handler.shouldEstablish(connectionInformation)) {
@@ -90,7 +93,7 @@ export class SocketServer {
                         .get(handler) as Set<WebsocketConnection>)
                         .add(connection);
                 }
-                handler.establish(connection);
+                handler.establish(identifier, connection);
                 return this;
             }
         }

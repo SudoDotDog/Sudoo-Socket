@@ -67,29 +67,29 @@ export class ConnectionHandler {
         return true;
     }
 
-    public establish(connection: WebsocketConnection): this {
+    public establish(identifier: string, connection: WebsocketConnection): this {
 
         connection.on('message', (data: Message) => {
-            this._emitMessage(connection, data);
+            this._emitMessage(identifier, connection, data);
         });
 
         connection.on('close', (reason: number, description: string) => {
-            this._triggerClose(reason, description);
+            this._triggerClose(identifier, reason, description);
         });
         return this;
     }
 
-    private async _emitMessage(connection: WebsocketConnection, message: Message): Promise<void> {
+    private async _emitMessage(identifier: string, connection: WebsocketConnection, message: Message): Promise<void> {
 
         const sortedAgents: MessageAgent[] = sortMessageAgents(this._messageAgents);
-        triggerEmitMessage(sortedAgents, connection, message);
+        triggerEmitMessage(identifier, sortedAgents, connection, message);
         return;
     }
 
-    private _triggerClose(reason: number, description: string): this {
+    private _triggerClose(identifier: string, reason: number, description: string): this {
 
         if (this._onConnectionClose) {
-            this._onConnectionClose(reason, description);
+            this._onConnectionClose(identifier, reason, description);
         }
         return this;
     }
