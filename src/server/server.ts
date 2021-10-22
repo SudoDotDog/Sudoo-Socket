@@ -82,6 +82,12 @@ export class SocketServer {
         return this;
     }
 
+    public setIdentifierGenerationFunction(identifierGenerationFunction: ServerIdentifierGenerationFunction): this {
+
+        this._identifierGenerationFunction = identifierGenerationFunction;
+        return this;
+    }
+
     private _onRequest(request: WebsocketRequest): this {
 
         const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
