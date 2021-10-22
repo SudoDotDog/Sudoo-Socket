@@ -9,6 +9,7 @@ import * as HTTP from "http";
 import { connection as WebsocketConnection, request as WebsocketRequest, server as WebsocketServer } from "websocket";
 import { ConnectionHandler } from "../connection-handler/connection-handler";
 import { ConnectionInformation } from "../declare/connection";
+import { ServerIdentifierGenerationFunction } from "../declare/server";
 import { extractConnectionInformation } from "../util/extract";
 
 export class SocketServer {
@@ -23,6 +24,8 @@ export class SocketServer {
 
     private readonly _connectionHandlers: Set<ConnectionHandler>;
     private readonly _connections: Map<ConnectionHandler, Set<WebsocketConnection>>;
+
+    private _identifierGenerationFunction: ServerIdentifierGenerationFunction;
 
     private constructor() {
 
