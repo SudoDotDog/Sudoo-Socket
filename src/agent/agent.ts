@@ -5,7 +5,7 @@
  */
 
 import { IMessageProxy } from "../declare/proxy";
-import { BinaryMessageHandler, JsonMessageHandler, MessageAgentOptions, UTF8MessageHandler } from "../declare/response";
+import { BinaryMessageHandler, InvalidJsonMessageSymbol, JsonMessageHandler, MessageAgentOptions, UTF8MessageHandler } from "../declare/response";
 
 export class MessageAgent {
 
@@ -55,10 +55,12 @@ export class MessageAgent {
         return this.utf8((proxy: IMessageProxy, message: string): void | Promise<void> => {
 
             try {
+
                 const parsed: T = JSON.parse(message);
                 return messageHandler(proxy, parsed);
             } catch (error) {
-                return messageHandler(proxy, null);
+
+                return messageHandler(proxy, InvalidJsonMessageSymbol);
             }
         }, name, priority);
     }
