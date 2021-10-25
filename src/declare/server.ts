@@ -5,5 +5,6 @@
  */
 
 import { request as WebsocketRequest } from "websocket";
+import { ConnectionInformation } from "../declare/connection";
 
-export type ServerIdentifierGenerationFunction = (request: WebsocketRequest) => string;
+export type ServerIdentifierGenerationFunction = (connection: ConnectionInformation, request: WebsocketRequest) => string;

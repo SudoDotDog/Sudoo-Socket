@@ -91,7 +91,7 @@ export class SocketServer {
     private _onRequest(request: WebsocketRequest): this {
 
         const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
-        const identifier: string = this._identifierGenerationFunction(request);
+        const identifier: string = this._identifierGenerationFunction(connectionInformation, request);
 
         for (const handler of this._connectionHandlers) {
 
