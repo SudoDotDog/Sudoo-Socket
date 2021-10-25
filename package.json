@@ -1,6 +1,6 @@
 {
   "name": "@sudoo/socket",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Socket Server for JS",
   "directories": {
     "doc": "docs"
