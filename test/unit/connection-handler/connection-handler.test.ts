@@ -7,7 +7,7 @@
 
 import { expect } from "chai";
 import * as Chance from "chance";
-import { ConnectionHandler } from "../../../src";
+import { ConnectionHandler, ConnectionInformation } from "../../../src";
 
 describe('Given {ConnectionHandler} Class', (): void => {
 
@@ -24,7 +24,7 @@ describe('Given {ConnectionHandler} Class', (): void => {
 
         const handler: ConnectionHandler = ConnectionHandler.allowAll();
 
-        const shouldEstablish = handler.shouldEstablish(chance.string() as any);
+        const shouldEstablish = handler.shouldEstablish(chance.string() as any as ConnectionInformation);
 
         expect(shouldEstablish).to.be.true;
     });
@@ -33,7 +33,7 @@ describe('Given {ConnectionHandler} Class', (): void => {
 
         const handler: ConnectionHandler = ConnectionHandler.allowNothing();
 
-        const shouldEstablish = handler.shouldEstablish(chance.string() as any);
+        const shouldEstablish = handler.shouldEstablish(chance.string() as any as ConnectionInformation);
 
         expect(shouldEstablish).to.be.false;
     });

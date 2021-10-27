@@ -102,7 +102,7 @@ export class SocketServer {
 
             if (handler.shouldEstablish(connectionInformation)) {
 
-                const connection: WebsocketConnection = request.accept(connectionInformation.protocol as any, request.origin);
+                const connection: WebsocketConnection = request.accept(connectionInformation.protocol as any as string, request.origin);
                 if (this._connections.has(handler)) {
 
                     (this._connections

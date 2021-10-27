@@ -16,6 +16,6 @@ export interface IMessageProxy {
 
     send(data: AvailableSocketDataType): IMessageProxy;
     sendAsBuffer(data: any): IMessageProxy;
-    sendAsJson<T extends any>(data: T): IMessageProxy;
+    sendAsJson<T>(data: T): IMessageProxy;
     stopPropagation(): IMessageProxy;
 }

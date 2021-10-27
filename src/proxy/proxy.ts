@@ -53,11 +53,13 @@ export class MessageProxy implements IMessageProxy {
             this._connection.sendBytes(data);
             return this;
         }
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         this._connection.sendBytes(Buffer.from(data));
         return this;
     }
 
-    public sendAsJson<T extends any>(data: T): this {
+    public sendAsJson<T>(data: T): this {
 
         this._connection.sendUTF(JSON.stringify(data));
         return this;

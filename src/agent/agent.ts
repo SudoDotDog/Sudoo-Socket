@@ -50,7 +50,7 @@ export class MessageAgent {
         });
     }
 
-    public static json<T extends any = any>(messageHandler: JsonMessageHandler<T>, name?: string, priority?: number): MessageAgent {
+    public static json<T = any>(messageHandler: JsonMessageHandler<T>, name?: string, priority?: number): MessageAgent {
 
         return this.utf8((proxy: IMessageProxy, message: string): void | Promise<void> => {
 
