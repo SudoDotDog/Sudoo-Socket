@@ -13,3 +13,11 @@ export const createProtocolMatchConnectionEstablishRequirement = (protocol: stri
         return information.protocol === protocol;
     };
 };
+
+export const createNoSpecificProtocolConnectionEstablishRequirement = (): ConnectionEstablishRequirement => {
+
+    return (information: ConnectionInformation): boolean => {
+
+        return information.protocol === null;
+    };
+};
