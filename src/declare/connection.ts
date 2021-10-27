@@ -28,6 +28,7 @@ export type ConnectionInformation = {
 
     readonly url: ConnectionURL;
     readonly origin: string;
+    readonly protocol: string | null;
     readonly userAgent: string;
     readonly websocketVersion: number;
 };

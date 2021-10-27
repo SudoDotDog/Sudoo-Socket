@@ -11,13 +11,16 @@ import { ConnectionHandler } from "../connection-handler/connection-handler";
 import { ConnectionInformation } from "../declare/connection";
 import { ServerIdentifierGenerationFunction } from "../declare/server";
 import { extractConnectionInformation } from "../util/extract";
+import { SocketServerOptions } from "./declare";
 
 export class SocketServer {
 
-    public static create(): SocketServer {
+    public static create(options: SocketServerOptions = {}): SocketServer {
 
-        return new SocketServer();
+        return new SocketServer(options);
     }
+
+    private readonly _options: SocketServerOptions;
 
     private _socketServer?: WebsocketServer;
     private _mounted: boolean;
@@ -27,7 +30,9 @@ export class SocketServer {
 
     private _identifierGenerationFunction: ServerIdentifierGenerationFunction;
 
-    private constructor() {
+    private constructor(options: SocketServerOptions) {
+
+        this._options = options;
 
         this._mounted = false;
 
@@ -97,7 +102,7 @@ export class SocketServer {
 
             if (handler.shouldEstablish(connectionInformation)) {
 
-                const connection: WebsocketConnection = request.accept(null as any, request.origin);
+                const connection: WebsocketConnection = request.accept(connectionInformation.protocol as any, request.origin);
                 if (this._connections.has(handler)) {
 
                     (this._connections

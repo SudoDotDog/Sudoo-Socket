@@ -8,6 +8,7 @@ export * from "./agent/agent";
 export * from "./agent/async";
 export * from "./connection-handler/connection-handler";
 export * from "./connection-handler/requirement/path-match";
+export * from "./connection-handler/requirement/protocol-match";
 export * from "./declare/connection";
 export * from "./declare/proxy";
 export * from "./declare/response";

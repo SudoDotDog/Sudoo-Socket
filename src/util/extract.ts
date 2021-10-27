@@ -61,12 +61,28 @@ const extractResourceURL = (original: Url): ConnectionURL => {
     );
 };
 
+const getProtocol = (request: WebsocketRequest): string | null => {
+
+    if (Array.isArray(request.requestedProtocols)) {
+        if (request.requestedProtocols.length > 0) {
+            return request.requestedProtocols[0];
+        }
+        return null;
+    }
+
+    if (typeof request.requestedProtocols === 'string') {
+        return request.requestedProtocols;
+    }
+    return null;
+};
+
 export const extractConnectionInformation = (request: WebsocketRequest): ConnectionInformation => {
 
     return {
 
         url: extractResourceURL(request.resourceURL),
         origin: request.origin,
+        protocol: getProtocol(request),
         websocketVersion: request.webSocketVersion,
         userAgent: request.httpRequest.headers["user-agent"] as string,
     };
