@@ -4,6 +4,8 @@
  * @description Declare
  */
 
+import { ConnectionInformation } from "../declare/connection";
+
 export interface WebSocketCookie {
     name: string;
     value: string;
@@ -21,7 +23,7 @@ export type SocketServerOptions = {
 };
 
 
-export type SocketServerAuthorization = {
+export type SocketServerAuthorizationRequest = {
 
     readonly type: 'bearer';
     readonly token: string;
@@ -36,4 +38,4 @@ export type SocketServerAuthorization = {
     readonly token: string;
 };
 
-export type AuthorizationVerifyFunction = (authorization: SocketServerAuthorization) => Promise<boolean> | boolean;
+export type SocketAuthorizationVerifyFunction<Result = any> = (authorization: SocketServerAuthorizationRequest, connectionInformation: ConnectionInformation) => Promise<Result | null> | Result | null;

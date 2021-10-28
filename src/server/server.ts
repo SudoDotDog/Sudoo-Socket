@@ -11,7 +11,8 @@ import { ConnectionHandler } from "../connection-handler/connection-handler";
 import { ConnectionInformation } from "../declare/connection";
 import { ServerIdentifierGenerationFunction } from "../declare/server";
 import { extractConnectionInformation } from "../util/extract";
-import { SocketServerOptions } from "./declare";
+import { AutoPassSocketServerAuthorizationFunction } from "./authorization";
+import { SocketAuthorizationVerifyFunction, SocketServerOptions } from "./declare";
 
 export class SocketServer {
 
@@ -29,6 +30,7 @@ export class SocketServer {
     private readonly _connections: Map<ConnectionHandler, Set<WebsocketConnection>>;
 
     private _identifierGenerationFunction: ServerIdentifierGenerationFunction;
+    private _authorizationFunction: SocketAuthorizationVerifyFunction;
 
     private constructor(options: SocketServerOptions) {
 
@@ -40,6 +42,7 @@ export class SocketServer {
         this._connections = new Map();
 
         this._identifierGenerationFunction = UUIDVersion1IdentifierGenerationFunction;
+        this._authorizationFunction = AutoPassSocketServerAuthorizationFunction;
     }
 
     public attach(server: HTTP.Server): this {
@@ -96,6 +99,15 @@ export class SocketServer {
     private async _onRequest(request: WebsocketRequest): Promise<void> {
 
         const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
+
+        const authorizationResult: any | null = await Promise.resolve(this._authorizationFunction(null, connectionInformation));
+
+        if (authorizationResult === null) {
+
+            request.reject();
+            return;
+        }
+
         const identifier: string = this._identifierGenerationFunction(connectionInformation, request);
 
         for (const handler of this._connectionHandlers) {
