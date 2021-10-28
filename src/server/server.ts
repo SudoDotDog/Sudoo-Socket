@@ -93,7 +93,7 @@ export class SocketServer {
         return this;
     }
 
-    private _onRequest(request: WebsocketRequest): this {
+    private async _onRequest(request: WebsocketRequest): Promise<void> {
 
         const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
         const identifier: string = this._identifierGenerationFunction(connectionInformation, request);
@@ -102,7 +102,12 @@ export class SocketServer {
 
             if (handler.shouldEstablish(connectionInformation)) {
 
-                const connection: WebsocketConnection = request.accept(connectionInformation.protocol as any as string, request.origin);
+                const connection: WebsocketConnection = request.accept(
+                    connectionInformation.protocol as any as string,
+                    request.origin,
+                    this._options.cookies,
+                );
+
                 if (this._connections.has(handler)) {
 
                     (this._connections
@@ -110,11 +115,11 @@ export class SocketServer {
                         .add(connection);
                 }
                 handler.establish(identifier, connection);
-                return this;
+                return;
             }
         }
 
         request.reject();
-        return this;
+        return;
     }
 }
