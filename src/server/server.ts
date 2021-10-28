@@ -4,12 +4,13 @@
  * @description Server
  */
 
+import { HTTP_RESPONSE_CODE } from "@sudoo/magic";
 import * as HTTP from "http";
 import { connection as WebsocketConnection, request as WebsocketRequest, server as WebsocketServer } from "websocket";
-import { UUIDVersion1IdentifierGenerationFunction } from "..";
 import { ConnectionHandler } from "../connection-handler/connection-handler";
 import { ConnectionInformation } from "../declare/connection";
 import { ServerIdentifierGenerationFunction } from "../declare/server";
+import { UUIDVersion1IdentifierGenerationFunction } from "../server/identifier";
 import { extractConnectionInformation } from "../util/extract";
 import { AutoPassSocketServerAuthorizationFunction } from "./authorization";
 import { SocketAuthorizationVerifyFunction, SocketServerOptions } from "./declare";
@@ -104,7 +105,7 @@ export class SocketServer {
 
         if (authorizationResult === null) {
 
-            request.reject();
+            request.reject(HTTP_RESPONSE_CODE.UNAUTHORIZED, "Unauthorized");
             return;
         }
 
@@ -132,7 +133,7 @@ export class SocketServer {
             }
         }
 
-        request.reject();
+        request.reject(HTTP_RESPONSE_CODE.NOT_FOUND, "Not Found");
         return;
     }
 }

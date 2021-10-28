@@ -5,8 +5,9 @@
  */
 
 import { connection as WebsocketConnection, Message } from "websocket";
-import { MessageAsyncAgent, MessageProxy } from "..";
 import { MessageAgent } from "../agent/agent";
+import { MessageAsyncAgent } from "../agent/async";
+import { MessageProxy } from "../proxy/proxy";
 
 export const triggerEmitMessage = async (identifier: string, messageAgents: MessageAgent[], connection: WebsocketConnection, message: Message): Promise<void> => {
 
