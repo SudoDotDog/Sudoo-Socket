@@ -109,11 +109,12 @@ export class SocketServer {
                 );
 
                 if (this._connections.has(handler)) {
-
-                    (this._connections
-                        .get(handler) as Set<WebsocketConnection>)
-                        .add(connection);
+                    const ensureHandler: Set<WebsocketConnection> = this._connections.get(handler) as Set<WebsocketConnection>;
+                    ensureHandler.add(connection);
+                } else {
+                    this._connections.set(handler, new Set());
                 }
+
                 handler.establish(identifier, connection);
                 return;
             }

@@ -19,3 +19,21 @@ export type SocketServerOptions = {
 
     readonly cookies?: WebSocketCookie[];
 };
+
+
+export type SocketServerAuthorization = {
+
+    readonly type: 'bearer';
+    readonly token: string;
+} | {
+
+    readonly type: 'basic';
+    readonly username: string;
+    readonly password: string;
+} | {
+
+    readonly type: 'plain';
+    readonly token: string;
+};
+
+export type AuthorizationVerifyFunction = (authorization: SocketServerAuthorization) => Promise<boolean> | boolean;
