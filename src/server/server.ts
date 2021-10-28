@@ -104,9 +104,13 @@ export class SocketServer {
     private async _onRequest(request: WebsocketRequest): Promise<void> {
 
         const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
-        const authorizationRequest: SocketServerAuthorizationRequest = extractSocketAuthorization(request.httpRequest.headers.authorization ?? null);
+        const authorizationRequest: SocketServerAuthorizationRequest = extractSocketAuthorization(
+            request.httpRequest.headers.authorization ?? null,
+        );
 
-        const authorizationResult: any | null = await Promise.resolve(this._authorizationFunction(authorizationRequest, connectionInformation));
+        const authorizationResult: any | null = await Promise.resolve(
+            this._authorizationFunction(authorizationRequest, connectionInformation),
+        );
 
         if (authorizationResult === null) {
 

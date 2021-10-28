@@ -10,7 +10,6 @@ import { IMessageProxy } from "../src/declare/proxy";
 
 const server = HTTP.createServer(function (request: any, response: any) {
 
-    console.log(request.url);
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     response.writeHead(404);
     response.end();
