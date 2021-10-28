@@ -22,6 +22,12 @@ server.listen(3000, function () {
 });
 
 const socket = SocketServer.create();
+socket.setAuthorizationFunction((request: any) => {
+
+    console.log(request);
+    return "Hello World";
+});
+
 const handler: ConnectionHandler = ConnectionHandler.whenSatisfy(
     createNoSpecificProtocolConnectionEstablishRequirement(),
     createPathMatchConnectionEstablishRequirement('/'),

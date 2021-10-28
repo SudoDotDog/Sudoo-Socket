@@ -77,7 +77,7 @@ export class SocketServer {
             throw new Error("[Sudoo-Socket] SocketServer not mounted");
         }
 
-        this._socketServer.shutDown();
+        this._socketServer.unmount();
         this._socketServer = undefined;
         this._mounted = false;
         return this;
@@ -98,6 +98,12 @@ export class SocketServer {
     public setIdentifierGenerationFunction(identifierGenerationFunction: ServerIdentifierGenerationFunction): this {
 
         this._identifierGenerationFunction = identifierGenerationFunction;
+        return this;
+    }
+
+    public setAuthorizationFunction(authorizationFunction: SocketAuthorizationVerifyFunction): this {
+
+        this._authorizationFunction = authorizationFunction;
         return this;
     }
 
