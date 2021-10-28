@@ -36,6 +36,9 @@ export type SocketServerAuthorizationRequest = {
 
     readonly type: 'plain';
     readonly token: string;
+} | {
+
+    readonly type: 'none';
 };
 
 export type SocketAuthorizationVerifyFunction<Result = any> = (authorization: SocketServerAuthorizationRequest, connectionInformation: ConnectionInformation) => Promise<Result | null> | Result | null;

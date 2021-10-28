@@ -11,9 +11,10 @@ import { ConnectionHandler } from "../connection-handler/connection-handler";
 import { ConnectionInformation } from "../declare/connection";
 import { ServerIdentifierGenerationFunction } from "../declare/server";
 import { UUIDVersion1IdentifierGenerationFunction } from "../server/identifier";
+import { extractSocketAuthorization } from "../util/authorization";
 import { extractConnectionInformation } from "../util/extract";
 import { AutoPassSocketServerAuthorizationFunction } from "./authorization";
-import { SocketAuthorizationVerifyFunction, SocketServerOptions } from "./declare";
+import { SocketAuthorizationVerifyFunction, SocketServerAuthorizationRequest, SocketServerOptions } from "./declare";
 
 export class SocketServer {
 
@@ -59,7 +60,10 @@ export class SocketServer {
             httpServer: server,
             autoAcceptConnections: false,
         });
-        socketServer.on('request', this._onRequest.bind(this));
+
+        socketServer.on('request', (request: WebsocketRequest) => {
+            this._onRequest(request);
+        });
 
         this._socketServer = socketServer;
         return this;
@@ -100,8 +104,9 @@ export class SocketServer {
     private async _onRequest(request: WebsocketRequest): Promise<void> {
 
         const connectionInformation: ConnectionInformation = extractConnectionInformation(request);
+        const authorizationRequest: SocketServerAuthorizationRequest = extractSocketAuthorization(request.httpRequest.headers.authorization ?? null);
 
-        const authorizationResult: any | null = await Promise.resolve(this._authorizationFunction(null, connectionInformation));
+        const authorizationResult: any | null = await Promise.resolve(this._authorizationFunction(authorizationRequest, connectionInformation));
 
         if (authorizationResult === null) {
 
