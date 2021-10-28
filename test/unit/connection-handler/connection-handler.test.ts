@@ -24,7 +24,7 @@ describe('Given {ConnectionHandler} Class', (): void => {
 
         const handler: ConnectionHandler = ConnectionHandler.allowAll();
 
-        const shouldEstablish = handler.shouldEstablish(chance.string() as any as ConnectionInformation);
+        const shouldEstablish = handler.shouldEstablish(chance.string(), chance.string() as any as ConnectionInformation);
 
         expect(shouldEstablish).to.be.true;
     });
@@ -33,7 +33,7 @@ describe('Given {ConnectionHandler} Class', (): void => {
 
         const handler: ConnectionHandler = ConnectionHandler.allowNothing();
 
-        const shouldEstablish = handler.shouldEstablish(chance.string() as any as ConnectionInformation);
+        const shouldEstablish = handler.shouldEstablish(chance.string(), chance.string() as any as ConnectionInformation);
 
         expect(shouldEstablish).to.be.false;
     });

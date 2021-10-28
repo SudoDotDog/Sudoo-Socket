@@ -6,9 +6,9 @@
 
 import { ConnectionEstablishRequirement, ConnectionInformation } from "../../declare/connection";
 
-export const createPathMatchConnectionEstablishRequirement = (path: string): ConnectionEstablishRequirement => {
+export const createPathMatchConnectionEstablishRequirement = <AuthorizationResult = any>(path: string): ConnectionEstablishRequirement<AuthorizationResult> => {
 
-    return (information: ConnectionInformation): boolean => {
+    return (_authorizationResult: AuthorizationResult, information: ConnectionInformation): boolean => {
 
         if (!information.url.pathname) {
             return false;

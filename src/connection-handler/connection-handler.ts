@@ -79,11 +79,11 @@ export class ConnectionHandler {
         return this;
     }
 
-    public shouldEstablish(connectionInformation: ConnectionInformation): boolean {
+    public shouldEstablish<AuthorizationResult = any>(authorizationResponse: AuthorizationResult, connectionInformation: ConnectionInformation): boolean {
 
         for (const requirement of this._requirements) {
 
-            if (!requirement(connectionInformation)) {
+            if (!requirement(authorizationResponse, connectionInformation)) {
                 return false;
             }
         }

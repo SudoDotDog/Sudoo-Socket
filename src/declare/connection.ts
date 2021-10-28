@@ -4,6 +4,7 @@
  * @description Connection
  */
 
+import { SocketAuthorizationVerifyFunction } from "../server/declare";
 import { IMessageProxy } from "./proxy";
 
 export type ConnectionURL = {
@@ -33,6 +34,6 @@ export type ConnectionInformation = {
     readonly websocketVersion: number;
 };
 
-export type ConnectionEstablishRequirement = (information: ConnectionInformation) => boolean;
+export type ConnectionEstablishRequirement<AuthorizationResult = any> = (authorization: AuthorizationResult, information: ConnectionInformation) => boolean;
 export type OnConnectionEstablishFunction = (identifier: string, proxy: IMessageProxy) => void;
 export type OnConnectionCloseFunction = (identifier: string, reason: number, description: string) => void;

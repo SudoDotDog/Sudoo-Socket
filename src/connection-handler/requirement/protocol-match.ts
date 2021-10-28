@@ -6,17 +6,17 @@
 
 import { ConnectionEstablishRequirement, ConnectionInformation } from "../../declare/connection";
 
-export const createProtocolMatchConnectionEstablishRequirement = (protocol: string): ConnectionEstablishRequirement => {
+export const createProtocolMatchConnectionEstablishRequirement = <AuthorizationResult = any>(protocol: string): ConnectionEstablishRequirement<AuthorizationResult> => {
 
-    return (information: ConnectionInformation): boolean => {
+    return (_authorizationResult: AuthorizationResult, information: ConnectionInformation): boolean => {
 
         return information.protocol === protocol;
     };
 };
 
-export const createNoSpecificProtocolConnectionEstablishRequirement = (): ConnectionEstablishRequirement => {
+export const createNoSpecificProtocolConnectionEstablishRequirement = <AuthorizationResult = any>(): ConnectionEstablishRequirement<AuthorizationResult> => {
 
-    return (information: ConnectionInformation): boolean => {
+    return (_authorizationResult: AuthorizationResult, information: ConnectionInformation): boolean => {
 
         return information.protocol === null;
     };

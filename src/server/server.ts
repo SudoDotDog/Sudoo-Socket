@@ -122,7 +122,7 @@ export class SocketServer {
 
         for (const handler of this._connectionHandlers) {
 
-            if (handler.shouldEstablish(connectionInformation)) {
+            if (handler.shouldEstablish(authorizationResult, connectionInformation)) {
 
                 const connection: WebsocketConnection = request.accept(
                     connectionInformation.protocol as any as string,
