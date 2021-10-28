@@ -4,7 +4,6 @@
  * @description Connection
  */
 
-import { SocketAuthorizationVerifyFunction } from "../server/declare";
 import { IMessageProxy } from "./proxy";
 
 export type ConnectionURL = {
