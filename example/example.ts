@@ -4,19 +4,18 @@
  * @description Example
  */
 
+import { HTTP_RESPONSE_CODE, WEB_SERVICE_DEVELOPMENT_PORT } from "@sudoo/magic";
 import * as HTTP from "http";
 import { ConnectionHandler, createNoSpecificProtocolConnectionEstablishRequirement, createPathMatchConnectionEstablishRequirement, MessageAgent, SocketServer } from "../src";
 import { IMessageProxy } from "../src/declare/proxy";
 
-const server = HTTP.createServer((request: any, response: any) => {
+const server = HTTP.createServer((_request: any, response: any) => {
 
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    response.writeHead(404);
+    response.writeHead(HTTP_RESPONSE_CODE.NOT_FOUND);
     response.end();
 });
 
-// eslint-disable-next-line @typescript-eslint/no-magic-numbers
-server.listen(3000, function () {
+server.listen(WEB_SERVICE_DEVELOPMENT_PORT.PRIMARY_LOWER_BASE, function () {
 
     console.log("Server is listening on port 3000");
 });
