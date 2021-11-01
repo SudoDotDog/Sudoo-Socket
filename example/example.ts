@@ -8,7 +8,7 @@ import * as HTTP from "http";
 import { ConnectionHandler, createNoSpecificProtocolConnectionEstablishRequirement, createPathMatchConnectionEstablishRequirement, MessageAgent, SocketServer } from "../src";
 import { IMessageProxy } from "../src/declare/proxy";
 
-const server = HTTP.createServer(function (request: any, response: any) {
+const server = HTTP.createServer((request: any, response: any) => {
 
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     response.writeHead(404);
