@@ -15,6 +15,9 @@
     "url": "https://github.com/SudoDotDog/Sudoo-Socket/issues"
   },
   "homepage": "https://github.com/SudoDotDog/Sudoo-Socket#readme",
+  "peerDependencies": {
+    "@sudoo/symbol": "*"
+  },
   "dependencies": {
     "@sudoo/magic": "^1.9.0",
     "@sudoo/uuid": "^1.1.0",
@@ -23,6 +26,7 @@
   "devDependencies": {
     "@sudoo/build-utils": "^1.0.0",
     "@sudoo/license": "^1.1.0",
+    "@sudoo/symbol": "^1.0.0",
     "@sudoo/triforce": "^2.15.1",
     "@types/websocket": "^1.0.4"
   },

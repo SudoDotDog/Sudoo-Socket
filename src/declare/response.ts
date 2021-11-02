@@ -4,13 +4,11 @@
  * @description Response
  */
 
+import { InvalidJSONSymbol } from "@sudoo/symbol";
 import { IMessageProxy } from "./proxy";
 
-export const InvalidJsonMessageSymbolText: string = "invalid-json-message";
-export const InvalidJsonMessageSymbol: symbol = Symbol.for(InvalidJsonMessageSymbolText);
-
 export type UTF8MessageHandler = (proxy: IMessageProxy, message: string) => void | Promise<void>;
-export type JsonMessageHandler<T = any> = (proxy: IMessageProxy, message: T | typeof InvalidJsonMessageSymbol) => void | Promise<void>;
+export type JsonMessageHandler<T = any> = (proxy: IMessageProxy, message: T | typeof InvalidJSONSymbol) => void | Promise<void>;
 export type BinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void | Promise<void>;
 
 export type MessageAgentOptions = {

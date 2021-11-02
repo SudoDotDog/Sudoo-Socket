@@ -4,8 +4,9 @@
  * @description Agent
  */
 
+import { InvalidJSONSymbol } from "@sudoo/symbol";
 import { IMessageProxy } from "../declare/proxy";
-import { BinaryMessageHandler, InvalidJsonMessageSymbol, JsonMessageHandler, MessageAgentOptions, UTF8MessageHandler } from "../declare/response";
+import { BinaryMessageHandler, JsonMessageHandler, MessageAgentOptions, UTF8MessageHandler } from "../declare/response";
 
 export class MessageAgent {
 
@@ -60,7 +61,7 @@ export class MessageAgent {
                 return messageHandler(proxy, parsed);
             } catch (error) {
 
-                return messageHandler(proxy, InvalidJsonMessageSymbol);
+                return messageHandler(proxy, InvalidJSONSymbol);
             }
         }, name, priority);
     }
