@@ -4,11 +4,11 @@
  * @description Response
  */
 
-import { InvalidJSONSymbol } from "@sudoo/symbol";
+import { SInvalidJSON } from "@sudoo/symbol";
 import { IMessageProxy } from "./proxy";
 
 export type UTF8MessageHandler = (proxy: IMessageProxy, message: string) => void | Promise<void>;
-export type JsonMessageHandler<T = any> = (proxy: IMessageProxy, message: T | typeof InvalidJSONSymbol) => void | Promise<void>;
+export type JsonMessageHandler<T = any> = (proxy: IMessageProxy, message: T | SInvalidJSON) => void | Promise<void>;
 export type BinaryMessageHandler = (proxy: IMessageProxy, message: Buffer) => void | Promise<void>;
 
 export type MessageAgentOptions = {

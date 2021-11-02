@@ -1,6 +1,6 @@
 {
   "name": "@sudoo/socket",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "description": "Socket Server for JS",
   "directories": {
     "doc": "docs"
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@sudoo/build-utils": "^1.0.0",
     "@sudoo/license": "^1.1.0",
-    "@sudoo/symbol": "^1.0.0",
+    "@sudoo/symbol": "^1.1.0",
     "@sudoo/triforce": "^2.15.1",
     "@types/websocket": "^1.0.4"
   },
