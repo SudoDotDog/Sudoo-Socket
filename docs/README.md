@@ -11,8 +11,10 @@ Socket Server for JS
 
 ```sh
 yarn add @sudoo/socket
+yarn add @sudoo/symbol # Peer Dependency
 # Or
 npm install @sudoo/socket --save
+npm install @sudoo/symbol --save # Peer Dependency
 ```
 
 ## Example
